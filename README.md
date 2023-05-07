@@ -33,7 +33,10 @@ Output should look something like:
 
 <img src="hello_world.png">
 
-Note that: `aldrin_save_ppm()` function generates `.ppm` output (see `hello_world.ppm`). The output converted to `.png` format to be displayed here.
+Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`hello_world.ppm`](hello_world.ppm)). The output converted to `.png` format to be displayed here.
+
+## Documentation
+* See [DOCUMENTATION.md](DOCUMENTATION.md).
 
 ## References
 * [Gabriel Gambetta / Computer Graphics from Scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/)
