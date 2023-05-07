@@ -1,0 +1,10 @@
+# ignore extension-less
+*
+!*/
+!*.*
+!LICENSE
+
+.vscode
+*-ignore.*
+*.ppm
+!hello_world.ppm
