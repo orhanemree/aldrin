@@ -6,8 +6,8 @@
 #include <stdint.h>
 #include <math.h>
 
-#define min(a,b) ((a)<(b)?(a):(b))
-#define max(a,b) ((a)>(b)?(a):(b))
+#define min(a,b) ((int)(a)<(int)(b)?(a):(b))
+#define max(a,b) ((int)(a)>(int)(b)?(a):(b))
 
 typedef struct Aldrin_Canvas {
     uint32_t *pixels;
@@ -18,7 +18,6 @@ typedef struct Aldrin_Canvas {
 
 /*
 TODOS:
-- (draw|fill)_circle()
 - (draw|fill)_ellipse()
 - (draw|fill)_rectangle()
 - (draw|fill)_square()
@@ -170,6 +169,55 @@ void aldrin_fill_triangle(Aldrin_Canvas ac,
         aldrin_draw_line(ac, x_start, y, x_end, y, fill_color, 1);
     }
 
+}
+
+
+// TODO: add thickness option
+// TODO: try to optimize circle functions with better algorithms
+void aldrin_draw_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
+    uint32_t line_color) {
+
+    // fuck the mid-point circle drawing algorithm
+    // using my own fucking best algorithm
+
+    // calculate bounding box
+    const uint32_t x_min = max(x-r, 0);
+    const uint32_t y_min = max(y-r, 0);
+    const uint32_t x_max = min(x+r, ac.width);
+    const uint32_t y_max = min(y+r, ac.height);
+
+    for (int py = y_min; py <= y_max; ++py) {
+        for (int px = x_min; px <= x_max; ++px) {
+            // calculate distance from point to center of circle
+            uint32_t d = sqrt(pow(max(py, y)-min(py, y), 2) + pow(max(px, x)-min(px, x), 2));
+            if (d == r) { // just draw outline if equal
+                aldrin_put_pixel(ac, px, py, line_color);
+            }
+        }
+    }
+}
+
+
+void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
+    uint32_t fill_color) {
+
+    // basicly same fucking algorithm of draw_circle
+
+    // calculate bounding box
+    const uint32_t x_min = max(x-r, 0);
+    const uint32_t y_min = max(y-r, 0);
+    const uint32_t x_max = min(x+r, ac.width);
+    const uint32_t y_max = min(y+r, ac.height);
+
+    for (int py = y_min; py <= y_max; ++py) {
+        for (int px = x_min; px <= x_max; ++px) {
+            // calculate distance from point to center of circle
+            uint32_t d = sqrt(pow(max(py, y)-min(py, y), 2) + pow(max(px, x)-min(px, x), 2));
+            if (d <= r) { // fill if less than or equal
+                aldrin_put_pixel(ac, px, py, fill_color);
+            }
+        }
+    }
 }
 
 
