@@ -16,6 +16,15 @@ typedef struct Aldrin_Canvas {
 } Aldrin_Canvas;
 
 
+/*
+TODOS:
+- (draw|fill)_circle()
+- (draw|fill)_ellipse()
+- (draw|fill)_rectangle()
+- (draw|fill)_square()
+*/
+
+
 void aldrin_swap(uint32_t *x1, uint32_t *y1, uint32_t *x2, uint32_t *y2) {
     // swap x
     uint32_t temp = *x1;
@@ -48,8 +57,6 @@ void aldrin_calculate_line_formula(uint32_t x1, uint32_t y1, int dx, int dy, dou
 
 
 // TODO: add smooth curves to top and bottom of line if thickness is greater than 1
-// KNOWN ERROR: when the line is near by one of edges and thickness is big, /
-// it causes negative indices and Segmentation fault
 void aldrin_draw_line(Aldrin_Canvas ac,
     uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t line_color, uint32_t thickness) {
     
@@ -63,15 +70,16 @@ void aldrin_draw_line(Aldrin_Canvas ac,
         // f(x) = y = mx + c
 
         for (uint32_t x = min(x1, x2); x <= max(x1, x2); ++x) {
-            uint32_t y = m*x + c;
+            int y = m*x + c, yt;
 
-            aldrin_put_pixel(ac, x, y, line_color);
+            if (y >= min(y1, y2) && y <= max(y1, y2)) {
+                aldrin_put_pixel(ac, x, y, line_color);
+            }
 
             for (int i = 1; i < thickness; ++i) {
-                if (fmod((double) i/2, 1) == 0) {
-                    aldrin_put_pixel(ac, x, y-i+i/2, line_color);
-                } else {
-                    aldrin_put_pixel(ac, x, y+i-i/2, line_color);
+                yt = (fmod((double) i/2, 1) == 0) ? y-i+i/2 : y+i-i/2;
+                if (yt >= 0 && yt <= ac.height) {
+                    aldrin_put_pixel(ac, x, yt, line_color);
                 }
             }
         }
@@ -81,15 +89,17 @@ void aldrin_draw_line(Aldrin_Canvas ac,
         // f(y) = x = (y - c) / m
 
         for (uint32_t y = min(y1, y2); y <= max(y1, y2); ++y) {
-            uint32_t x = (y - c) / m;
+            int x = (y - c) / m, xt;
 
-            aldrin_put_pixel(ac, x, y, line_color);
+            if (x >= min(x1, x2) && x <= max(x1, x2)) {
+                aldrin_put_pixel(ac, x, y, line_color);
+            }
 
             for (int i = 1; i < thickness; ++i) {
-                if (fmod((double) i/2, 1) == 0) {
-                    aldrin_put_pixel(ac, x-i+i/2, y, line_color);
-                } else {
-                    aldrin_put_pixel(ac, x+i-i/2, y, line_color);
+                xt = (fmod((double) i/2, 1) == 0) ? x-i+i/2 : x+i-i/2;
+
+                if (xt >= 0 && xt <= ac.width) {
+                    aldrin_put_pixel(ac, xt, y, line_color);
                 }
             }
         }
