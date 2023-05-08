@@ -9,6 +9,12 @@
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
+typedef struct Aldrin_Canvas {
+    uint32_t *pixels;
+    uint32_t width;
+    uint32_t height;
+} Aldrin_Canvas;
+
 
 void aldrin_swap(uint32_t *x1, uint32_t *y1, uint32_t *x2, uint32_t *y2) {
     // swap x
@@ -23,18 +29,14 @@ void aldrin_swap(uint32_t *x1, uint32_t *y1, uint32_t *x2, uint32_t *y2) {
 }
 
 
-void aldrin_put_pixel(uint32_t *canvas, uint32_t width,
-    uint32_t x, uint32_t y, uint32_t color) {
-
-        canvas[y*width+x] = color;
+void aldrin_put_pixel(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t color) {
+    ac.pixels[(y*ac.width) + x] = color;
 }
 
 
-void aldrin_fill(uint32_t *canvas, uint32_t width, uint32_t height,
-    uint32_t fill_color) {
-
-    for (uint32_t p = 0; p < width*height; ++p) {
-        canvas[p] = fill_color;
+void aldrin_fill(Aldrin_Canvas ac, uint32_t fill_color) {
+    for (uint32_t p = 0; p < ac.width * ac.height; ++p) {
+        ac.pixels[p] = fill_color;
     }
 }
 
@@ -48,7 +50,7 @@ void aldrin_calculate_line_formula(uint32_t x1, uint32_t y1, int dx, int dy, dou
 // TODO: add smooth curves to top and bottom of line if thickness is greater than 1
 // KNOWN ERROR: when the line is near by one of edges and thickness is big, /
 // it causes negative indices and Segmentation fault
-void aldrin_draw_line(uint32_t *canvas, uint32_t width,
+void aldrin_draw_line(Aldrin_Canvas ac,
     uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t line_color, uint32_t thickness) {
     
     const int dx = x1-x2;
@@ -63,13 +65,13 @@ void aldrin_draw_line(uint32_t *canvas, uint32_t width,
         for (uint32_t x = min(x1, x2); x <= max(x1, x2); ++x) {
             uint32_t y = m*x + c;
 
-            aldrin_put_pixel(canvas, width, x, y, line_color);
+            aldrin_put_pixel(ac, x, y, line_color);
 
             for (int i = 1; i < thickness; ++i) {
                 if (fmod((double) i/2, 1) == 0) {
-                    aldrin_put_pixel(canvas, width, x, y-i+i/2, line_color);
+                    aldrin_put_pixel(ac, x, y-i+i/2, line_color);
                 } else {
-                    aldrin_put_pixel(canvas, width, x, y+i-i/2, line_color);
+                    aldrin_put_pixel(ac, x, y+i-i/2, line_color);
                 }
             }
         }
@@ -81,13 +83,13 @@ void aldrin_draw_line(uint32_t *canvas, uint32_t width,
         for (uint32_t y = min(y1, y2); y <= max(y1, y2); ++y) {
             uint32_t x = (y - c) / m;
 
-            aldrin_put_pixel(canvas, width, x, y, line_color);
+            aldrin_put_pixel(ac, x, y, line_color);
 
             for (int i = 1; i < thickness; ++i) {
                 if (fmod((double) i/2, 1) == 0) {
-                    aldrin_put_pixel(canvas, width, x-i+i/2, y, line_color);
+                    aldrin_put_pixel(ac, x-i+i/2, y, line_color);
                 } else {
-                    aldrin_put_pixel(canvas, width, x+i-i/2, y, line_color);
+                    aldrin_put_pixel(ac, x+i-i/2, y, line_color);
                 }
             }
         }
@@ -96,17 +98,17 @@ void aldrin_draw_line(uint32_t *canvas, uint32_t width,
 }
 
 
-void aldrin_draw_triangle(uint32_t *canvas, uint32_t width,
+void aldrin_draw_triangle(Aldrin_Canvas ac,
     uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t x3, uint32_t y3,
     uint32_t line_color, uint32_t thickness) {
 
-    aldrin_draw_line(canvas, width, x1, y1, x2, y2, line_color, thickness);
-    aldrin_draw_line(canvas, width, x1, y1, x3, y3, line_color, thickness);
-    aldrin_draw_line(canvas, width, x2, y2, x3, y3, line_color, thickness);
+    aldrin_draw_line(ac, x1, y1, x2, y2, line_color, thickness);
+    aldrin_draw_line(ac, x1, y1, x3, y3, line_color, thickness);
+    aldrin_draw_line(ac, x2, y2, x3, y3, line_color, thickness);
 }
 
 
-void aldrin_fill_triangle(uint32_t *canvas, uint32_t width,
+void aldrin_fill_triangle(Aldrin_Canvas ac,
     uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t x3, uint32_t y3,
     uint32_t fill_color) {
 
@@ -146,7 +148,7 @@ void aldrin_fill_triangle(uint32_t *canvas, uint32_t width,
         // f(y) = x = (y - c) / m
         const uint32_t x_start = (y - c13) / m13;
         const uint32_t x_end = (y - c12) / m12;
-        aldrin_draw_line(canvas, width, x_start, y, x_end, y, fill_color, 1);
+        aldrin_draw_line(ac, x_start, y, x_end, y, fill_color, 1);
     }
 
     // scan and fill second half
@@ -155,26 +157,25 @@ void aldrin_fill_triangle(uint32_t *canvas, uint32_t width,
         // f(y) = x = (y - c) / m
         const uint32_t x_start = (y - c13) / m13;
         const uint32_t x_end = (y - c23) / m23;
-        aldrin_draw_line(canvas, width, x_start, y, x_end, y, fill_color, 1);
+        aldrin_draw_line(ac, x_start, y, x_end, y, fill_color, 1);
     }
 
 }
 
 
-int aldrin_save_ppm(uint32_t *canvas, uint32_t width, uint32_t height,
-    const char *filename) {
+int aldrin_save_ppm(Aldrin_Canvas ac, const char *filename) {
     FILE *f = fopen(filename, "wb");
     if (f == NULL) {
         printf("Cannot open output file %s.\n", filename);
         return 1;
     }
 
-    fprintf(f, "P3\n%d %d 255\n", width, height);
+    fprintf(f, "P3\n%d %d 255\n", ac.width, ac.height);
 
-    for (uint32_t p = 0; p < width*height; ++p) {
-        const uint8_t r = (canvas[p] >> 16) & 0xff;
-        const uint8_t g = (canvas[p] >> 8) & 0xff;
-        const uint8_t b = canvas[p] & 0xff;
+    for (uint32_t p = 0; p < ac.width * ac.height; ++p) {
+        const uint8_t r = (ac.pixels[p] >> 16) & 0xff;
+        const uint8_t g = (ac.pixels[p] >> 8) & 0xff;
+        const uint8_t b = ac.pixels[p] & 0xff;
         fprintf(f, "%d %d %d\n", r, g, b);
     }
 
