@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="lily_aldrin.png">
+    <img src="img/lily_aldrin.png">
 </p>
 
 # 👩‍🦰 Aldrin
@@ -31,9 +31,9 @@ int main() {
 ```
 Output should look something like:
 
-<img src="hello_world.png">
+<img src="img/hello_world.png">
 
-Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`hello_world.ppm`](hello_world.ppm)). The output converted to `.png` format to be displayed here.
+Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`img/hello_world.ppm`](img/hello_world.ppm)). The output converted to `.png` format to be displayed here.
 
 ## Documentation
 * See [DOCUMENTATION.md](DOCUMENTATION.md).
