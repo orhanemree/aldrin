@@ -77,7 +77,7 @@ void aldrin_draw_line(Aldrin_Canvas ac,
 
             for (int i = 1; i < thickness; ++i) {
                 yt = (fmod((double) i/2, 1) == 0) ? y-i+i/2 : y+i-i/2;
-                if (yt >= 0 && yt <= ac.height) {
+                if (yt >= 0 && yt < ac.height) {
                     aldrin_put_pixel(ac, x, yt, line_color);
                 }
             }
@@ -97,7 +97,7 @@ void aldrin_draw_line(Aldrin_Canvas ac,
             for (int i = 1; i < thickness; ++i) {
                 xt = (fmod((double) i/2, 1) == 0) ? x-i+i/2 : x+i-i/2;
 
-                if (xt >= 0 && xt <= ac.width) {
+                if (xt >= 0 && xt < ac.width) {
                     aldrin_put_pixel(ac, xt, y, line_color);
                 }
             }
@@ -183,8 +183,8 @@ void aldrin_draw_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     // calculate bounding box
     const uint32_t x_min = max(x-r, 0);
     const uint32_t y_min = max(y-r, 0);
-    const uint32_t x_max = min(x+r, ac.width);
-    const uint32_t y_max = min(y+r, ac.height);
+    const uint32_t x_max = min(x+r, ac.width-1);
+    const uint32_t y_max = min(y+r, ac.height-1);
 
     for (int py = y_min; py <= y_max; ++py) {
         for (int px = x_min; px <= x_max; ++px) {
@@ -206,8 +206,8 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     // calculate bounding box
     const uint32_t x_min = max(x-r, 0);
     const uint32_t y_min = max(y-r, 0);
-    const uint32_t x_max = min(x+r, ac.width);
-    const uint32_t y_max = min(y+r, ac.height);
+    const uint32_t x_max = min(x+r, ac.width-1);
+    const uint32_t y_max = min(y+r, ac.height-1);
 
     for (int py = y_min; py <= y_max; ++py) {
         for (int px = x_min; px <= x_max; ++px) {
