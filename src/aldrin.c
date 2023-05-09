@@ -156,8 +156,8 @@ void aldrin_fill_triangle(Aldrin_Canvas ac,
     for (uint32_t y = y1; y <= y2; ++y) {
 
         // f(y) = x = (y - c) / m
-        const uint32_t x_start = (y - c13) / m13;
-        const uint32_t x_end = (y - c12) / m12;
+        const uint32_t x_start = (m12 == 0 || dx12 == 0) ? x1 : (y - c12) / m12;
+        const uint32_t x_end = dx13 == 0 ? x1 : (y - c13) / m13;
         aldrin_draw_line(ac, x_start, y, x_end, y, fill_color, 1);
     }
 
@@ -165,8 +165,8 @@ void aldrin_fill_triangle(Aldrin_Canvas ac,
     for (uint32_t y = y2; y <= y3; ++y) {
 
         // f(y) = x = (y - c) / m
-        const uint32_t x_start = (y - c13) / m13;
-        const uint32_t x_end = (y - c23) / m23;
+        const uint32_t x_start = (m23 == 0 || dx23 == 0) ? x2 : (y - c23) / m23;
+        const uint32_t x_end = dx13 == 0 ? x1 : (y - c13) / m13;
         aldrin_draw_line(ac, x_start, y, x_end, y, fill_color, 1);
     }
 
