@@ -88,7 +88,8 @@ void aldrin_draw_line(Aldrin_Canvas ac,
         // f(y) = x = (y - c) / m
 
         for (uint32_t y = min(y1, y2); y <= max(y1, y2); ++y) {
-            int x = (y - c) / m, xt;
+            int x, xt;
+            x = dx == 0 ? x1 : (y - c) / m;
 
             if (x >= min(x1, x2) && x <= max(x1, x2)) {
                 aldrin_put_pixel(ac, x, y, line_color);
