@@ -34,7 +34,10 @@ Output should look something like:
 
 <img src="img/hello_world.png">
 
-Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`img/hello_world.ppm`](img/hello_world.ppm)). The output converted to `.png` format to be displayed here.
+Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`/img/hello_world.ppm`](img/hello_world.ppm)). The output converted to `.png` format to be displayed here.
+
+## Examples
+* See [/examples](examples).
 
 ## Documentation
 * See [DOCUMENTATION.md](DOCUMENTATION.md).
