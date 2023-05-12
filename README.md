@@ -5,7 +5,7 @@
 # 👩‍🦰 Aldrin
 Simple 2D Computer Graphics Library in C.
 
-It stores some color codes of pixels in memory (called canvas here) and you are free to use this pixels wherever you want. You can write the pixels to `.ppm` file or build `.c` code to `.wasm` and display the pixels on JavaScript Canvas. Keep reading to see examples on both paltforms.
+It stores some color codes of pixels in memory (called canvas here) and you are free to use this pixels wherever you want. You can write the pixels to `.ppm` file or build `.c` code to `.wasm` and display the pixels on JavaScript Canvas. Keep reading to see examples on both platforms.
 
 ## Quick Start
 * Just copy and paste `/src/aldrin.c` file to your project.
@@ -30,34 +30,27 @@ int main() {
     return 0;
 }
 ```
-Output should look something like:
+Output should look something like this:
 
 <img src="img/hello_world.png">
 
 Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`/img/hello_world.ppm`](img/hello_world.ppm)). The output converted to `.png` format to be displayed here.
 
 ## Build
-### Platform=C
-* Generates executable output.
+* Build to normal `C` program.
 ```bash
-$ bash build.sh <EXTENSION_LESS_FILENAME>
+$ clang -DPLATFORM_C -lm -o <filename> <filename>.c
 # or
-$ bash build.sh c <EXTENSION_LESS_FILENAME>
-```
-* For example this code builds `main.c` to `main` executable:
-```bash
-$ bash build.sh main
+$ gcc <filename>.c -o <filename> -lm -DPLATFORM_C
 ```
 
-### Platform=WASM
-* Generates `.wasm` output.
+* Build to `.wasm` platform.
 ```bash
-$ bash build.sh wasm <EXTENSION_LESS_FILENAME>
+$ clang -DPLATFORM_WASM --target=wasm32 -o <filename>.o -c <filename>.c
+$ wasm-ld --no-entry --allow-undefined --export-all -o <filename>.wasm <filename>.o
 ```
-* For example this code builds `main.c` to `main.wasm`:
-```bash
-$ bash build.sh wasm main
-```
+* Don't worry about wasm warnings. We'll fix them from JavaScript side.
+* Note: Make sure you have `clang` and `wasm-ld` installed.
 
 ## Running Tests
 * You need Python to run tests.
