@@ -5,12 +5,12 @@
 # 👩‍🦰 Aldrin
 Simple 2D Computer Graphics Library in C.
 
-It stores some color codes in memory (called canvas here) and you are free to use this pixels wherever you want. 
+It stores some color codes of pixels in memory (called canvas here) and you are free to use this pixels wherever you want. You can write the pixels to `.ppm` file or build `.c` code to `.wasm` and display the pixels on JavaScript Canvas. Keep reading to see examples on both paltforms.
 
 ## Quick Start
-* Just copy and paste `/src` folder to your project.
+* Just copy and paste `/src/aldrin.c` file to your project.
 ```c
-#include "src/aldrin.c" // that's it!
+#include "aldrin.c" // that's it!
 ```
 
 ## `Hello, World!` of Pixels
@@ -36,11 +36,45 @@ Output should look something like:
 
 Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`/img/hello_world.ppm`](img/hello_world.ppm)). The output converted to `.png` format to be displayed here.
 
+## Build
+### Platform=C
+* Generates executable output.
+```bash
+$ bash build.sh <EXTENSION_LESS_FILENAME>
+# or
+$ bash build.sh c <EXTENSION_LESS_FILENAME>
+```
+* For example this code builds `main.c` to `main` executable:
+```bash
+$ bash build.sh main
+```
+
+### Platform=WASM
+* Generates `.wasm` output.
+```bash
+$ bash build.sh wasm <EXTENSION_LESS_FILENAME>
+```
+* For example this code builds `main.c` to `main.wasm`:
+```bash
+$ bash build.sh wasm main
+```
+
+## Running Tests
+* You need Python to run tests.
+```bash
+$ cd test
+$ python main.py
+```
+* Get more info:
+```bash
+$ python main.py help
+```
+
 ## Examples
-* See [/examples](examples).
+* See [`/examples`](examples).
 
 ## Documentation
-* See [DOCUMENTATION.md](DOCUMENTATION.md).
+* See [`DOCUMENTATION.md`](DOCUMENTATION.md).
 
 ## References
 * [Gabriel Gambetta / Computer Graphics from Scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/)

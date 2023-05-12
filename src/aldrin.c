@@ -1,10 +1,19 @@
 #ifndef ALDRIN_H_
 #define ALDRIN_H_
 
+#ifndef PLATFORM_WASM
+#ifndef PLATFORM_C
+#define PLATFORM_C
+#endif // PLATFORM_C
+#endif // PLATFORM_WASM
+
+#ifdef PLATFORM_C
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <math.h>
+#endif // PLATFORM_C
+
+#include <stdint.h>
 
 #define min(a,b) ((int)(a)<(int)(b)?(a):(b))
 #define max(a,b) ((int)(a)>(int)(b)?(a):(b))
@@ -14,14 +23,6 @@ typedef struct Aldrin_Canvas {
     uint32_t width;
     uint32_t height;
 } Aldrin_Canvas;
-
-
-/*
-TODOS:
-- (draw|fill)_ellipse()
-- (draw|fill)_rectangle()
-- (draw|fill)_square()
-*/
 
 
 void aldrin_swap(uint32_t *x1, uint32_t *y1, uint32_t *x2, uint32_t *y2) {
@@ -71,13 +72,13 @@ void aldrin_draw_line(Aldrin_Canvas ac,
         for (uint32_t x = min(x1, x2); x <= max(x1, x2); ++x) {
             int y = m*x + c, yt;
 
-            if (y >= min(y1, y2) && y <= max(y1, y2)) {
+            if (y >= (int) min(y1, y2) && y <= (int) max(y1, y2)) {
                 aldrin_put_pixel(ac, x, y, line_color);
             }
 
-            for (int i = 1; i < thickness; ++i) {
+            for (int i = 1; i < (int) thickness; ++i) {
                 yt = (fmod((double) i/2, 1) == 0) ? y-i+i/2 : y+i-i/2;
-                if (yt >= 0 && yt < ac.height) {
+                if (yt >= 0 && yt < (int) ac.height) {
                     aldrin_put_pixel(ac, x, yt, line_color);
                 }
             }
@@ -91,14 +92,14 @@ void aldrin_draw_line(Aldrin_Canvas ac,
             int x, xt;
             x = dx == 0 ? x1 : (y - c) / m;
 
-            if (x >= min(x1, x2) && x <= max(x1, x2)) {
+            if (x >= (int) min(x1, x2) && x <= (int) max(x1, x2)) {
                 aldrin_put_pixel(ac, x, y, line_color);
             }
 
-            for (int i = 1; i < thickness; ++i) {
+            for (int i = 1; i < (int) thickness; ++i) {
                 xt = (fmod((double) i/2, 1) == 0) ? x-i+i/2 : x+i-i/2;
 
-                if (xt >= 0 && xt < ac.width) {
+                if (xt >= 0 && xt < (int) ac.width) {
                     aldrin_put_pixel(ac, xt, y, line_color);
                 }
             }
@@ -187,8 +188,8 @@ void aldrin_draw_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     const uint32_t x_max = min(x+r, ac.width-1);
     const uint32_t y_max = min(y+r, ac.height-1);
 
-    for (int py = y_min; py <= y_max; ++py) {
-        for (int px = x_min; px <= x_max; ++px) {
+    for (int py = y_min; py <= (int) y_max; ++py) {
+        for (int px = x_min; px <= (int) x_max; ++px) {
             // calculate distance from point to center of circle
             uint32_t d = sqrt(pow(max(py, y)-min(py, y), 2) + pow(max(px, x)-min(px, x), 2));
             if (d == r) { // just draw outline if equal
@@ -210,8 +211,8 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     const uint32_t x_max = min(x+r, ac.width-1);
     const uint32_t y_max = min(y+r, ac.height-1);
 
-    for (int py = y_min; py <= y_max; ++py) {
-        for (int px = x_min; px <= x_max; ++px) {
+    for (int py = y_min; py <= (int) y_max; ++py) {
+        for (int px = x_min; px <= (int) x_max; ++px) {
             // calculate distance from point to center of circle
             uint32_t d = sqrt(pow(max(py, y)-min(py, y), 2) + pow(max(px, x)-min(px, x), 2));
             if (d <= r) { // fill if less than or equal
@@ -221,6 +222,24 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     }
 }
 
+
+// makes sense with wasm
+uint32_t *aldrin_get_pixels(Aldrin_Canvas ac) {
+    return ac.pixels;
+}
+
+
+uint32_t aldrin_get_width(Aldrin_Canvas ac) {
+    return ac.width;
+}
+
+
+uint32_t aldrin_get_height(Aldrin_Canvas ac) {
+    return ac.height;
+}
+
+
+#ifdef PLATFORM_C
 
 int aldrin_save_ppm(Aldrin_Canvas ac, const char *filename) {
     FILE *f = fopen(filename, "wb");
@@ -242,6 +261,8 @@ int aldrin_save_ppm(Aldrin_Canvas ac, const char *filename) {
 
     return 0;
 }
+
+#endif // PLATFORM_C
 
 
 #endif // ALDRIN_H_

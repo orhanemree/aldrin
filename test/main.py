@@ -16,6 +16,9 @@ main.py record -> runs all examples in /examples and /
 record single test
 main.py record <test_name> -> runs /examples/<test_name>.c and /
     saves the output /examples/output/<test_name>.ppm to ./expected/<name>.ppm
+    
+print help message
+main.py help
 """
 
 import sys
@@ -76,6 +79,17 @@ def record_test(test_name: str) -> bool:
         return False
     
 
+def display_help():
+    print("USAGE:\n")
+    print("Run all test:        main.py\n")
+    print("Run single test:     main.py <TEST_NAME>")
+    print("  Example: main.py lines\n")
+    print("Record all tests:    main.py record\n")
+    print("Record single test:  main.py record <TEST_NAME>")
+    print("  Example: main.py record triangles\n")
+    print("Print this message:  main.py help")
+    
+
 def main():
     if len(sys.argv) == 1:
         # run all tests
@@ -112,6 +126,9 @@ def main():
                 if success: print(f"🟢 Test `{test_name}` recorded.")
                 else: print(f"🔴 Test `{test_name}` could not be recorded.")
                 
+    elif sys.argv[1] == "help":
+        display_help()
+        
     else:
         # run sinlge test
         test_name = sys.argv[1]
