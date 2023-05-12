@@ -1,29 +1,12 @@
-"""
-USAGE:
-
-run all tests
-main.py-> runs all examples in /examples and /
-    compares all outputs in /examples/output with expected outputs in ./expected
-
-run single test
-main.py <test_name> -> runs /examples/<test_name>.c and /
-    compares ./expected/<test_name>.ppm with /examples/output/<test_name>.ppm
-
-record all test
-main.py record -> runs all examples in /examples and /
-    saves all outputs in /examples/output to ./expected
-
-record single test
-main.py record <test_name> -> runs /examples/<test_name>.c and /
-    saves the output /examples/output/<test_name>.ppm to ./expected/<name>.ppm
-    
-print help message
-main.py help
-"""
-
 import sys
 import os
 
+has_pillow = True
+try:
+    from PIL import Image
+except Exception:
+    has_pillow = False
+    
 EXAMPLES_PATH = "../examples"
 EXAMPLE_OUTPUT_PATH = "../examples/output"
 EXPECTED_OUTPUT_PATH = "./expected"
@@ -31,13 +14,17 @@ EXPECTED_OUTPUT_PATH = "./expected"
 
 def run_example(test_name: str):
     """
-    Run example. Generate it's output. Delete executable. Return output .ppm as text.
+    Run example. Generate it's output. Convert .ppm to .png (to make it human-visible) Delete executable. Return output .ppm as text.
     """
     
     os.chdir(EXAMPLES_PATH)
     os.system(f"gcc {test_name}.c -o {test_name} -lm")
     os.system(f"./{test_name}")
     os.system(f"rm {test_name}")
+
+    if has_pillow:
+        image = Image.open(f"output/{test_name}.ppm")
+        image.save(f"output/{test_name}.png")
     
     with open(f"output/{test_name}.ppm") as f:
         output = f.read()

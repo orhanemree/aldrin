@@ -2,6 +2,11 @@
 Python test codes. See [`main.py`](main.py).
 
 ## Usage
+* Print help message.
+```bash
+$ python main.py help
+```
+
 * Run all tests.
 ```bash
 $ python main.py
