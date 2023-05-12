@@ -16,16 +16,23 @@ def run_example(test_name: str):
     """
     Run example. Generate it's output. Convert .ppm to .png (to make it human-visible) Delete executable. Return output .ppm as text.
     """
-    
     os.chdir(EXAMPLES_PATH)
-    os.system(f"gcc {test_name}.c -o {test_name} -lm")
+    
+    # build as normal c program, generate .ppm
+    os.system(f"clang -DPLATFORM_C -lm -o {test_name} {test_name}.c")
     os.system(f"./{test_name}")
     os.system(f"rm {test_name}")
 
+    # convert .ppm to .png
     if has_pillow:
         image = Image.open(f"output/{test_name}.ppm")
         image.save(f"output/{test_name}.png")
-    
+        
+    # build as wasm program
+    os.system(f"clang -DPLATFORM_WASM --target=wasm32 -o {test_name}.o -c {test_name}.c")
+    os.system(f"wasm-ld --no-entry --allow-undefined --export-all -o output/{test_name}.wasm {test_name}.o")
+    os.system(f"rm {test_name}.o")
+        
     with open(f"output/{test_name}.ppm") as f:
         output = f.read()
         
