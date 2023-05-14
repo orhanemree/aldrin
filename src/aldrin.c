@@ -275,6 +275,20 @@ void aldrin_fill_rectangle(Aldrin_Canvas ac, uint32_t x, int32_t y,
 }
 
 
+void aldrin_draw_square(Aldrin_Canvas ac, uint32_t x, int32_t y, uint32_t l,
+    uint32_t line_color, uint32_t thickness) {
+    
+    aldrin_draw_rectangle(ac, x, y, l, l, line_color, thickness);
+}
+
+
+void aldrin_fill_square(Aldrin_Canvas ac, uint32_t x, int32_t y, uint32_t l,
+    uint32_t fill_color) {
+    
+    aldrin_fill_rectangle(ac, x, y, l, l, fill_color);
+}
+
+
 // makes sense with wasm
 uint32_t *aldrin_get_pixels(Aldrin_Canvas ac) {
     return ac.pixels;
