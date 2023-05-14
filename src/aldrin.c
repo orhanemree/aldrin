@@ -10,13 +10,35 @@
 #ifdef PLATFORM_C
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #endif // PLATFORM_C
 
 #include <stdint.h>
 
 #define min(a,b) ((int)(a)<(int)(b)?(a):(b))
 #define max(a,b) ((int)(a)>(int)(b)?(a):(b))
+#define abs(n) ((int)(n)>=0?(n):(-1*(n)))
+
+uint32_t power(uint32_t a, uint32_t b) {
+    if (b == 0) return 1;
+    if (b > 1) return a * power(a, b-1);
+    return a;
+}
+
+double sqrt(double x) {
+    double guess = x / 2.0;
+    double error = 0.0001;
+    while (abs(guess * guess - x) > error) {
+        guess = (guess + x / guess) / 2.0;
+    }
+    return guess;
+}
+
+double fmod(double x, double y) {
+    double quotient = x / y;
+    double remainder = x - ((int) quotient * y);
+    return remainder;
+}
+
 
 typedef struct Aldrin_Canvas {
     uint32_t *pixels;
@@ -191,7 +213,7 @@ void aldrin_draw_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     for (int py = y_min; py <= (int) y_max; ++py) {
         for (int px = x_min; px <= (int) x_max; ++px) {
             // calculate distance from point to center of circle
-            uint32_t d = sqrt(pow(max(py, y)-min(py, y), 2) + pow(max(px, x)-min(px, x), 2));
+            uint32_t d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
             if (d == r) { // just draw outline if equal
                 aldrin_put_pixel(ac, px, py, line_color);
             }
@@ -214,7 +236,7 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     for (int py = y_min; py <= (int) y_max; ++py) {
         for (int px = x_min; px <= (int) x_max; ++px) {
             // calculate distance from point to center of circle
-            uint32_t d = sqrt(pow(max(py, y)-min(py, y), 2) + pow(max(px, x)-min(px, x), 2));
+            uint32_t d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
             if (d <= r) { // fill if less than or equal
                 aldrin_put_pixel(ac, px, py, fill_color);
             }
