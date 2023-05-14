@@ -223,6 +223,58 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
 }
 
 
+void aldrin_draw_rectangle(Aldrin_Canvas ac, uint32_t x, int32_t y,
+    uint32_t w, uint32_t h, uint32_t line_color, uint32_t thickness) {
+    
+    const uint32_t half_w = w/2;
+    const uint32_t half_h = h/2;
+
+    // calculate bounding box
+    const uint32_t x_min = max(x-half_w, 0);
+    const uint32_t y_min = max(y-half_h, 0);
+    const uint32_t x_max = min(x+half_w, ac.width-1);
+    const uint32_t y_max = min(y+half_h, ac.height-1);
+
+    if (half_h <= y) {
+        // top
+        aldrin_draw_line(ac, x_min, y_min, x_max, y_min, line_color, thickness);
+    }
+
+    if (half_w <= x) {
+        // left
+        aldrin_draw_line(ac, x_min, y_max, x_min, y_min, line_color, thickness);
+    }
+
+    if (x+half_w <= ac.width) {
+        // right
+        aldrin_draw_line(ac, x_max, y_min, x_max, y_max, line_color, thickness);
+    }
+
+    if (y+half_h <= ac.height) {
+        // bottom
+        aldrin_draw_line(ac, x_max, y_max, x_min, y_max, line_color, thickness);
+    }
+}
+
+
+void aldrin_fill_rectangle(Aldrin_Canvas ac, uint32_t x, int32_t y,
+    uint32_t w, uint32_t h, uint32_t fill_color) {
+
+    const uint32_t half_w = w/2;
+    const uint32_t half_h = h/2;
+
+    // calculate bounding box
+    const uint32_t x_min = max(x-half_w, 0);
+    const uint32_t y_min = max(y-half_h, 0);
+    const uint32_t x_max = min(x+half_w, ac.width-1);
+    const uint32_t y_max = min(y+half_h, ac.height-1);
+
+    for (uint32_t y0 = y_min; y0 <= y_max; ++y0) {
+        aldrin_draw_line(ac, x_min, y0, x_max, y0, fill_color, 1); 
+    }
+}
+
+
 // makes sense with wasm
 uint32_t *aldrin_get_pixels(Aldrin_Canvas ac) {
     return ac.pixels;
