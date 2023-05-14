@@ -14,7 +14,9 @@ int main() {
     aldrin_draw_line(ac, 0, 0, WIDTH-1, 0, 0x0000ff, 1);
     aldrin_draw_line(ac, 0, 0, 0, HEIGHT-1, 0x0000ff, 1);
 
+    #ifdef PLATFORM_C
     aldrin_save_ppm(ac, "output/lines.ppm");
+    #endif // PLATFORM_C
     
     return 0;
 }

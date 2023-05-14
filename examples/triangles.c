@@ -13,7 +13,9 @@ int main() {
     aldrin_fill_triangle(ac, 80, 80, 50, 130, 130, 90, 0x00ff00);
     aldrin_fill_triangle(ac, WIDTH-10, 20, 90, 190, 130, 150, 0x0000ff);
 
+    #ifdef PLATFORM_C
     aldrin_save_ppm(ac, "output/triangles.ppm");
+    #endif // PLATFORM_C
 
     return 0;
 }

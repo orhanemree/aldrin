@@ -15,7 +15,9 @@ int main() {
     const int r = 25;
     aldrin_fill_circle(ac, WIDTH-r-1, HEIGHT-r-1, r, 0x0000ff);
 
+    #ifdef PLATFORM_C
     aldrin_save_ppm(ac, "output/circles.ppm");
+    #endif // PLATFORM_C
 
     return 0;
 }
