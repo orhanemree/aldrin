@@ -39,9 +39,9 @@ Note that: `aldrin_save_ppm()` function generates `.ppm` output (see [`/img/hell
 ## Build
 * Build to normal `C` program.
 ```bash
-$ clang -DPLATFORM_C -lm -o <filename> <filename>.c
+$ clang -DPLATFORM_C -o <filename> <filename>.c
 # or
-$ gcc <filename>.c -o <filename> -lm -DPLATFORM_C
+$ gcc <filename>.c -o <filename> -DPLATFORM_C
 ```
 
 * Build to `.wasm` platform.
