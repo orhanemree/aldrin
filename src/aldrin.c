@@ -90,11 +90,11 @@ void aldrin_draw_line(Aldrin_Canvas ac,
     if (abs(dx) > abs(dy)) {
         // it is horizontal-ish
         // f(x) = y = mx + c
-
-        for (uint32_t x = min(x1, x2); x <= max(x1, x2); ++x) {
+        
+        for (uint32_t x = max(min(x1, x2), 0); x <= min(max(x1, x2), ac.width-1); ++x) {
             int y = m*x + c, yt;
 
-            if (y >= (int) min(y1, y2) && y <= (int) max(y1, y2)) {
+            if (y >= (int) max(min(y1, y2), 0) && y <= (int) min(max(y1, y2), ac.height-1)) {
                 aldrin_put_pixel(ac, x, y, line_color);
             }
 
@@ -110,11 +110,11 @@ void aldrin_draw_line(Aldrin_Canvas ac,
         // it is vertical-ish
         // f(y) = x = (y - c) / m
 
-        for (uint32_t y = min(y1, y2); y <= max(y1, y2); ++y) {
+        for (uint32_t y = max(min(y1, y2), 0); y <= min(max(y1, y2), ac.height-1); ++y) {
             int x, xt;
             x = dx == 0 ? x1 : (y - c) / m;
 
-            if (x >= (int) min(x1, x2) && x <= (int) max(x1, x2)) {
+            if (x >= (int) max(min(x1, x2), 0) && x <= (int) min(max(x1, x2), ac.width-1)) {
                 aldrin_put_pixel(ac, x, y, line_color);
             }
 
@@ -204,20 +204,38 @@ void aldrin_draw_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     // fuck the mid-point circle drawing algorithm
     // using my own fucking best algorithm
 
-    // calculate bounding box
-    const uint32_t x_min = max(x-r, 0);
-    const uint32_t y_min = max(y-r, 0);
-    const uint32_t x_max = min(x+r, ac.width-1);
-    const uint32_t y_max = min(y+r, ac.height-1);
+    int px, py;
+    uint32_t d;
+    py = y-r;
 
-    for (int py = y_min; py <= (int) y_max; ++py) {
-        for (int px = x_min; px <= (int) x_max; ++px) {
-            // calculate distance from point to center of circle
-            uint32_t d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
-            if (d == r) { // just draw outline if equal
-                aldrin_put_pixel(ac, px, py, line_color);
+    while (py <= (int) y) {
+        px = x-r;
+        while (px <= (int) x) {
+            d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
+            if (d == r) {
+                // repeat for 4 quarters
+                if (px >= 0) {
+                    if (py >= 0) {
+                        aldrin_put_pixel(ac, px, py, line_color);
+                    }
+                    if (y-py+y >= 0) {
+                        aldrin_put_pixel(ac, px, y-py+y, line_color);
+                    }
+                }
+                if (x-px+x >= 0) {
+                    if (py >= 0) {
+                        aldrin_put_pixel(ac, x-px+x, py, line_color);
+                    }
+                    if (y-py+y >= 0) {
+                        aldrin_put_pixel(ac, x-px+x, y-py+y, line_color);
+                    }
+                }
+            } else if (d < r) {
+                break;
             }
+            ++px;
         }
+        ++py;
     }
 }
 
@@ -227,20 +245,25 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
 
     // basicly same fucking algorithm of draw_circle
 
-    // calculate bounding box
-    const uint32_t x_min = max(x-r, 0);
-    const uint32_t y_min = max(y-r, 0);
-    const uint32_t x_max = min(x+r, ac.width-1);
-    const uint32_t y_max = min(y+r, ac.height-1);
+    int px, py;
+    uint32_t d;
+    py = y-r;
 
-    for (int py = y_min; py <= (int) y_max; ++py) {
-        for (int px = x_min; px <= (int) x_max; ++px) {
-            // calculate distance from point to center of circle
-            uint32_t d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
-            if (d <= r) { // fill if less than or equal
-                aldrin_put_pixel(ac, px, py, fill_color);
+    while (py <= (int) y) {
+        px = x-r;
+        while (px <= (int) x) {
+            d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
+            if (d <= r) {
+                break;
             }
+            ++px;
         }
+        // repeat for 4 quarters
+        aldrin_draw_line(ac, max(px, 0), max(py, 0), min(px, ac.width-1), min(py, ac.height-1), fill_color, 1);
+        aldrin_draw_line(ac, max(px, 0), max(y-py+y, 0), min(px, ac.width-1), min(y-py+y, ac.height-1), fill_color, 1);
+        aldrin_draw_line(ac, max(x-px+x, 0), max(py, 0), min(px, ac.width-1), min(py, ac.height-1), fill_color, 1);
+        aldrin_draw_line(ac, max(x-px+x, 0), max(y-py+y, 0), min(px, ac.width-1), min(y-py+y, ac.height-1), fill_color, 1);
+        ++py;
     }
 }
 

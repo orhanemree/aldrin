@@ -20,9 +20,9 @@ def run_example(test_name: str):
     os.chdir(EXAMPLES_PATH)
     
     # build as normal c program, generate .ppm
-    subprocess.call(["clang", "-DPLATFORM_C", "-o", test_name, f"{test_name}.c"])
-    subprocess.call([f"./{test_name}"])
-    subprocess.call(["rm", test_name])
+    os.system(f"clang -DPLATFORM_C -lm -o {test_name} {test_name}.c")
+    os.system(f"./{test_name}")
+    os.system(f"rm {test_name}")
 
     # convert .ppm to .png
     if has_pillow:
@@ -32,13 +32,14 @@ def run_example(test_name: str):
     # build as wasm program
     try:
         # not much necessary if other test passes
-        subprocess.call(["clang", "-DPLATFORM_WASM", "--target=wasm32", "-o", test_name, "-c", f"{test_name}.c"])
         subprocess.call(
             ["wasm-ld", "--no-entry", "--allow-undefined", "--export-all", "-o", f"output/{test_name}.wasm", f"{test_name}.o"],
             stdout = subprocess.DEVNULL,
             stderr = subprocess.DEVNULL
         )
-        subprocess.call(["rm", f"{test_name}.o"])
+        os.system(f"wasm-ld --no-entry --allow-undefined --export-all -o output/{test_name}.wasm {test_name}.o")
+        os.system(f"rm {test_name}.o")
+        
     except:
         pass
         
