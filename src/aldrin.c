@@ -197,74 +197,196 @@ void aldrin_fill_triangle(Aldrin_Canvas ac,
 
 
 // TODO: add thickness option
-// TODO: try to optimize circle functions with better algorithms
+void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
+    uint32_t rx, uint32_t ry, uint32_t line_color) {
+
+    // implementation of fucking midpoint ellipse algorithm
+    int xk0, xk1, yk0, yk1, p1k0, p1k1, p2k0, p2k1;
+    uint32_t px, py;
+
+    // region 1
+    xk0 = 0;
+    yk0 = ry;
+    p1k0 = power(ry, 2)+power(rx, 2)/4-ry*power(rx, 2);
+
+    do {
+        px = xk0+x;
+        py = yk0+y;
+
+        // repeat for 4 quads
+        if (px >= 0 && px < ac.width) {
+            if (py >= 0 && py < ac.height) {
+                aldrin_put_pixel(ac, px, py, line_color);
+            }
+            if (y-py+y >= 0 && y-py+y < ac.height) {
+                aldrin_put_pixel(ac, px, y-py+y, line_color);
+            }
+        }
+        if (x-px+x >= 0 && x-px+x < ac.width) {
+            if (py >= 0 && py < ac.height) {
+                aldrin_put_pixel(ac, x-px+x, py, line_color);
+            }
+            if (y-py+y >= 0 && y-py+y < ac.height) {
+                aldrin_put_pixel(ac, x-px+x, y-py+y, line_color);
+            }
+        }
+
+        if (p1k0 >= 0) {
+            xk1 = xk0+1;
+            yk1 = yk0-1;
+        } else {
+            xk1 = xk0+1;
+            yk1 = yk0;
+        }
+        p1k1 = p1k0+power(ry, 2)+2*(xk0+1)*power(ry, 2)+power(rx, 2)*(power(yk1, 2)-power(yk0, 2))-power(rx, 2)*(yk1-yk0);
+
+        xk0 = xk1;
+        yk0 = yk1;
+        p1k0 = p1k1;
+
+
+    } while (2*power(ry, 2)*xk1 < 2*power(rx, 2)*yk1);
+
+    // region 2
+    int cond;
+    p2k0 = power(xk0+1/2, 2)*power(ry, 2)+power(yk0-1, 2)*power(rx, 2)-power(rx*ry, 2);
+
+    do {
+        cond = xk0 != rx || yk0 != 0;
+
+        px = xk0+x;
+        py = yk0+y;
+
+        // repeat for 4 quads
+        if (px >= 0 && px < ac.width) {
+            if (py >= 0 && py < ac.height) {
+                aldrin_put_pixel(ac, px, py, line_color);
+            }
+            if (y-py+y >= 0 && y-py+y < ac.height) {
+                aldrin_put_pixel(ac, px, y-py+y, line_color);
+            }
+        }
+        if (x-px+x >= 0 && x-px+x < ac.width) {
+            if (py >= 0 && py < ac.height) {
+                aldrin_put_pixel(ac, x-px+x, py, line_color);
+            }
+            if (y-py+y >= 0 && y-py+y < ac.height) {
+                aldrin_put_pixel(ac, x-px+x, y-py+y, line_color);
+            }
+        }
+
+        if (p2k0 >= 0) {
+            xk1 = xk0;
+            yk1 = yk0-1;
+        } else {
+            xk1 = xk0+1;
+            yk1 = yk0-1;
+        }
+        p2k1 = p2k0+power(rx, 2)-2*power(rx, 2)*(yk0-1)+power(ry, 2)*(power(xk1, 2)-power(xk0, 2))+power(ry, 2)*(xk1-xk0);
+
+        xk0 = xk1;
+        yk0 = yk1;
+        p2k0 = p2k1;
+
+    } while (cond);
+}
+
+
+void aldrin_fill_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
+    uint32_t rx, uint32_t ry, uint32_t fill_color) {
+
+    int xk0, xk1, yk0, yk1, p1k0, p1k1, p2k0, p2k1;
+    uint32_t px, py;
+
+    // region 1
+    xk0 = 0;
+    yk0 = ry;
+    p1k0 = power(ry, 2)+power(rx, 2)/4-ry*power(rx, 2);
+
+    do {
+        px = xk0+x;
+        py = yk0+y;
+    
+        // repeat for 4 quads
+        aldrin_draw_line(ac, min(px, ac.width-1), min(py, ac.height-1), 
+            min(x, ac.width-1), min(py, ac.height-1), fill_color, 1);
+
+        aldrin_draw_line(ac, min(px, ac.width-1), max(y-py+y, 0), 
+            min(x, ac.width-1), max(y-py+y, 0), fill_color, 1);
+
+        aldrin_draw_line(ac, max(x-px+x, 0), min(py, ac.height-1), 
+            min(x, ac.width-1), min(py, ac.height-1), fill_color, 1);
+
+        aldrin_draw_line(ac, max(x-px+x, 0), max(y-py+y, 0), 
+            min(x, ac.width-1), max(y-py+y, 0), fill_color, 1);
+
+        if (p1k0 >= 0) {
+            xk1 = xk0+1;
+            yk1 = yk0-1;
+        } else {
+            xk1 = xk0+1;
+            yk1 = yk0;
+        }
+        p1k1 = p1k0+power(ry, 2)+2*(xk0+1)*power(ry, 2)+power(rx, 2)*(power(yk1, 2)-power(yk0, 2))-power(rx, 2)*(yk1-yk0);
+
+        xk0 = xk1;
+        yk0 = yk1;
+        p1k0 = p1k1;
+
+
+    } while (2*power(ry, 2)*xk1 < 2*power(rx, 2)*yk1);
+
+    // region 2
+    int cond;
+    p2k0 = power(xk0+1/2, 2)*power(ry, 2)+power(yk0-1, 2)*power(rx, 2)-power(rx*ry, 2);
+    
+    do {
+        cond = xk0 != rx || yk0 != 0;
+
+        px = xk0+x;
+        py = yk0+y;
+
+        // repeat for 4 quads
+        aldrin_draw_line(ac, min(px, ac.width-1), min(py, ac.height-1), 
+            min(x, ac.width-1), min(py, ac.height-1), fill_color, 1);
+
+        aldrin_draw_line(ac, min(px, ac.width-1), max(y-py+y, 0), 
+            min(x, ac.width-1), max(y-py+y, 0), fill_color, 1);
+
+        aldrin_draw_line(ac, max(x-px+x, 0), min(py, ac.height-1), 
+            min(x, ac.width-1), min(py, ac.height-1), fill_color, 1);
+
+        aldrin_draw_line(ac, max(x-px+x, 0), max(y-py+y, 0), 
+            min(x, ac.width-1), max(y-py+y, 0), fill_color, 1);
+
+        if (p2k0 >= 0) {
+            xk1 = xk0;
+            yk1 = yk0-1;
+        } else {
+            xk1 = xk0+1;
+            yk1 = yk0-1;
+        }
+        p2k1 = p2k0+power(rx, 2)-2*power(rx, 2)*(yk0-1)+power(ry, 2)*(power(xk1, 2)-power(xk0, 2))+power(ry, 2)*(xk1-xk0);
+
+        xk0 = xk1;
+        yk0 = yk1;
+        p2k0 = p2k1;
+
+    } while (cond);
+}
+
+
 void aldrin_draw_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     uint32_t line_color) {
 
-    // fuck the mid-point circle drawing algorithm
-    // using my own fucking best algorithm
-
-    int px, py;
-    uint32_t d;
-    py = y-r;
-
-    while (py <= (int) y) {
-        px = x-r;
-        while (px <= (int) x) {
-            d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
-            if (d == r) {
-                // repeat for 4 quarters
-                if (px >= 0) {
-                    if (py >= 0) {
-                        aldrin_put_pixel(ac, px, py, line_color);
-                    }
-                    if (y-py+y >= 0) {
-                        aldrin_put_pixel(ac, px, y-py+y, line_color);
-                    }
-                }
-                if (x-px+x >= 0) {
-                    if (py >= 0) {
-                        aldrin_put_pixel(ac, x-px+x, py, line_color);
-                    }
-                    if (y-py+y >= 0) {
-                        aldrin_put_pixel(ac, x-px+x, y-py+y, line_color);
-                    }
-                }
-            } else if (d < r) {
-                break;
-            }
-            ++px;
-        }
-        ++py;
-    }
+    aldrin_draw_ellipse(ac, x, y, r, r, line_color);
 }
 
 
 void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
     uint32_t fill_color) {
 
-    // basicly same fucking algorithm of draw_circle
-
-    int px, py;
-    uint32_t d;
-    py = y-r;
-
-    while (py <= (int) y) {
-        px = x-r;
-        while (px <= (int) x) {
-            d = sqrt(power(max(py, y)-min(py, y), 2) + power(max(px, x)-min(px, x), 2));
-            if (d <= r) {
-                break;
-            }
-            ++px;
-        }
-        // repeat for 4 quarters
-        aldrin_draw_line(ac, max(px, 0), max(py, 0), min(px, ac.width-1), min(py, ac.height-1), fill_color, 1);
-        aldrin_draw_line(ac, max(px, 0), max(y-py+y, 0), min(px, ac.width-1), min(y-py+y, ac.height-1), fill_color, 1);
-        aldrin_draw_line(ac, max(x-px+x, 0), max(py, 0), min(px, ac.width-1), min(py, ac.height-1), fill_color, 1);
-        aldrin_draw_line(ac, max(x-px+x, 0), max(y-py+y, 0), min(px, ac.width-1), min(y-py+y, ac.height-1), fill_color, 1);
-        ++py;
-    }
+    aldrin_fill_ellipse(ac, x, y, r, r, fill_color);
 }
 
 
