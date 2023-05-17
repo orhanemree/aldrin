@@ -38,10 +38,12 @@ def run_example(test_name: str):
             stdout = subprocess.DEVNULL,
             stderr = subprocess.DEVNULL
         )
-        os.system(f"rm {test_name}.o")
-        
+                
     except:
         pass
+    
+    finally:
+        os.system(f"rm {test_name}.o")
         
     with open(f"output/{test_name}.ppm") as f:
         output = f.read()
