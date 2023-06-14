@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Rubik", sans-serif;
+    font-size: 16px;
+}
+
+.cont {
+    display: grid;
+    grid-template-columns: 1fr max(200px, 30%);
+    gap: 20px;
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.header {
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+textarea#t {
+    width: 100%;
+    height: 70vh;
+    resize: none;
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 20px;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    outline: none;
+    border: none;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.des > div {
+    font-size: 14px;
+    color: gray;
+}
+
+.des span {
+    color: black;
+}
+
+@media screen and (max-width: 650px) {
+    .cont {
+        grid-template-columns: 1fr;
+    }
+
+    textarea#t {
+        width: 100%;
+        height: 50vh;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+  
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
