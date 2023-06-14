@@ -7,6 +7,8 @@ Simple 2D Computer Graphics Library in C.
 
 It stores some color codes of pixels in memory (called canvas here) and you are free to use this pixels wherever you want. You can write the pixels to `.ppm` file or build `.c` code to `.wasm` and display the pixels on JavaScript Canvas. Keep reading to see examples on both platforms.
 
+Visit [Playground](https://orhanemree.github.io/aldrin/) to try online.
+
 ## Quick Start
 * Just copy and paste `/src/aldrin.c` file to your project.
 ```c
@@ -49,8 +51,10 @@ $ gcc <filename>.c -o <filename> -DPLATFORM_C
 $ clang -DPLATFORM_WASM --target=wasm32 -o <filename>.o -c <filename>.c
 $ wasm-ld --no-entry --allow-undefined --export-all -o <filename>.wasm <filename>.o
 ```
-* Don't worry about wasm warnings. We'll fix them from JavaScript side.
 * Note: Make sure you have `clang` and `wasm-ld` installed.
+
+## Examples
+* See [`/examples`](examples).
 
 ## Running Tests
 * You need Python to run tests.
@@ -62,9 +66,6 @@ $ python main.py
 ```bash
 $ python main.py help
 ```
-
-## Examples
-* See [`/examples`](examples).
 
 ## Documentation
 * See [`DOCUMENTATION.md`](DOCUMENTATION.md).
