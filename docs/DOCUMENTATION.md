@@ -19,7 +19,6 @@
     - [`aldrin_fill_rectangle()`](#aldrin_fill_rectangle)
     - [`aldrin_draw_square()`](#aldrin_draw_square)
     - [`aldrin_fill_square()`](#aldrin_fill_square)
-    - [`aldrin_fill_square()`](#aldrin_fill_square-1)
     - [`aldrin_get_pixels()`](#aldrin_get_pixels)
     - [`aldrin_get_width()`](#aldrin_get_width)
     - [`aldrin_get_height()`](#aldrin_get_height)
@@ -216,20 +215,6 @@ aldrin_fill_rectangle(ac, 0, 0, 200, 100, 0x0000ff);
 * Example: 
 ```c
 aldrin_draw_square(ac, 0, 0, 100, 0x0000ff, 1);
-```
-
-### `aldrin_fill_square()`
-* Draws and fills a square on the canvas.
-* Syntax: aldrin_fill_square(ac, x, y, l, fill_color)
-* Parameters:
-  - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of rectangle
-  - `y`: `uint32_t`: y coordinate of center of rectangle
-  - `l`: `uint32_t`: lenght (width and height) of rectangle
-  - `fill_color`: `uint32_t`: color code of fill
-* Example: 
-```c
-aldrin_fill_square(ac, 0, 0, 100, 0x0000ff);
 ```
 
 ### `aldrin_fill_square()`
