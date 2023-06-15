@@ -68,7 +68,7 @@ $ python main.py help
 ```
 
 ## Documentation
-* See [`DOCUMENTATION.md`](DOCUMENTATION.md).
+* See [`docs/DOCUMENTATION.md`](docs/DOCUMENTATION.md).
 
 ## References
 * [Gabriel Gambetta / Computer Graphics from Scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/)

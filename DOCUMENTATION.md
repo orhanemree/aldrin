@@ -1,2 +1,0 @@
-# 👩‍🦰 Aldrin Documentation
-Coming Soon
