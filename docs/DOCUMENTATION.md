@@ -1,5 +1,31 @@
 # 👩‍🦰 Aldrin Documentation
 
+<details>
+  <summary>Table of Contents</summary>
+
+- [👩‍🦰 Aldrin Documentation](#-aldrin-documentation)
+  - [API Reference](#api-reference)
+    - [`Aldrin_Canvas`](#aldrin_canvas)
+    - [`aldrin_put_pixel()`](#aldrin_put_pixel)
+    - [`aldrin_fill()`](#aldrin_fill)
+    - [`aldrin_draw_line()`](#aldrin_draw_line)
+    - [`aldrin_draw_triangle()`](#aldrin_draw_triangle)
+    - [`aldrin_fill_triangle()`](#aldrin_fill_triangle)
+    - [`aldrin_draw_ellipse()`](#aldrin_draw_ellipse)
+    - [`aldrin_fill_ellipse()`](#aldrin_fill_ellipse)
+    - [`aldrin_draw_circle()`](#aldrin_draw_circle)
+    - [`aldrin_fill_circle()`](#aldrin_fill_circle)
+    - [`aldrin_draw_rectangle()`](#aldrin_draw_rectangle)
+    - [`aldrin_fill_rectangle()`](#aldrin_fill_rectangle)
+    - [`aldrin_draw_square()`](#aldrin_draw_square)
+    - [`aldrin_fill_square()`](#aldrin_fill_square)
+    - [`aldrin_fill_square()`](#aldrin_fill_square-1)
+    - [`aldrin_get_pixels()`](#aldrin_get_pixels)
+    - [`aldrin_get_width()`](#aldrin_get_width)
+    - [`aldrin_get_height()`](#aldrin_get_height)
+    - [`aldrin_save_ppm()`](#aldrin_save_ppm)
+</details>
+
 ## API Reference
 
 ### `Aldrin_Canvas`
@@ -259,7 +285,7 @@ aldrin_get_height(ac);
 * Parameters:
   - `ac`: `Aldrin_Canvas`
   - `filename`: `char[]`: filename of the ppm file
-* ⚠ Note: This function is not only available with `WASM`.
+* ⚠ Note: This function is not available with `WASM`.
 * Example: 
 ```c
 aldrin_save_ppm(ac, "output.ppm");
