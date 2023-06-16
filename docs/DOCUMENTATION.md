@@ -194,7 +194,7 @@ aldrin_fill_circle(ac, 0, 0, 50, 0xff0000);
   - `thickness`: "uint32_t`: thickness of line
 * Example: 
 ```c
-aldrin_draw_rectangle(ac, 0, 0, 200, 100, 0x0000ff, 1);
+aldrin_draw_rectangle(ac, 0, 0, 200, 100, 0xff0000, 1);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_rectangle).
 
@@ -210,7 +210,7 @@ aldrin_draw_rectangle(ac, 0, 0, 200, 100, 0x0000ff, 1);
   - `fill_color`: `uint32_t`: color code of fill
 * Example: 
 ```c
-aldrin_fill_rectangle(ac, 0, 0, 200, 100, 0x0000ff);
+aldrin_fill_rectangle(ac, 0, 0, 200, 100, 0xff0000);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_rectangle).
 
@@ -225,7 +225,7 @@ aldrin_fill_rectangle(ac, 0, 0, 200, 100, 0x0000ff);
   - `line_color`: `uint32_t`: color code of line
 * Example: 
 ```c
-aldrin_draw_square(ac, 0, 0, 100, 0x0000ff, 1);
+aldrin_draw_square(ac, 0, 0, 100, 0xff0000, 1);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_square).
 
@@ -240,7 +240,7 @@ aldrin_draw_square(ac, 0, 0, 100, 0x0000ff, 1);
   - `fill_color`: `uint32_t`: color code of fill
 * Example: 
 ```c
-aldrin_fill_square(ac, 0, 0, 100, 0x0000ff);
+aldrin_fill_square(ac, 0, 0, 100, 0xff0000);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_square).
 
