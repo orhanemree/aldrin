@@ -46,3 +46,45 @@ export const displayPixels = (canvas, width, height, pixels) => {
 
     ctx.putImageData(imageData, 0, 0);
 }
+
+
+export const runProgram = (exports, canvas, program) => {
+    const ac = exports.ac;
+    const width = exports.aldrin_get_width(ac);
+    const height = exports.aldrin_get_height(ac);
+    // multiply by 4 because R, G, B, A are separately 8 bites
+    const pixels =  new Uint8Array(exports.memory.buffer, exports.aldrin_get_pixels(ac), width*height*4);
+
+    // clear canvas first
+    exports["aldrin_fill"](exports.ac, 0x000000);
+
+    // parse program
+    const program_ = program.trim().replace(/\n/g, "");
+    const lines = program_.split(");").filter(l => l !== "");
+
+    for (const line of lines) {
+        const [func, argsString] = line.split("(");
+
+        const args = argsString.replace(")", "").split(", ")
+        .filter(a => a !== "").map(a => {
+            // arg is main Alrin_Canvas variable from wasm (c)
+            if (a === "ac") return ac;
+            // arg is a color
+            if (a.startsWith("0x")) {
+                // convert to color code
+                return parseInt(a.replace("0x", ""), 16);
+            }
+            // arg is a number
+            if (!isNaN(+a)) return +a;
+            // args is string or something else
+            return a;
+        });
+
+        // run function
+        console.log(`[INFO] running func ${func.trim()}()\nwith parameters ${args}`);
+        exports[func.trim()](...args);
+        
+        // display output on canvas
+        displayPixels(canvas, width, height, pixels);
+    }
+}

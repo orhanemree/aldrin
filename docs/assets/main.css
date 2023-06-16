@@ -8,6 +8,10 @@
     font-size: 16px;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 .github {
     position: absolute;
     top: 15px;
@@ -27,6 +31,10 @@
     grid-template-columns: 1fr max(200px, 30%);
     gap: 20px;
     padding: 50px;
+}
+
+.inner {
+    padding: 50px 80px;
 }
 
 .row {
@@ -89,6 +97,10 @@ button {
     .cont {
         grid-template-columns: 1fr;
         padding: 20px;
+    }
+
+    .inner {
+        padding: 5px;
     }
 
     textarea#t {
