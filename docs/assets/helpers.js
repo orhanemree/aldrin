@@ -76,7 +76,31 @@ export const runProgram = (exports, canvas, program) => {
             }
             // arg is a number
             if (!isNaN(+a)) return +a;
-            // args is string or something else
+            // arg is a string
+            if (a[0] === a[a.length-1] && a[0] === "\"") {
+                /*
+                we can't pass string values as argument from js to wasm
+                to do this we need to encode string first
+                then allocate wasm memory (make sure it is empty)
+                then write chars of string to the reserved memory separately
+                and pass pointer of reserved memory as argument
+
+                implementation:
+                */
+                // encode text
+                const encoder = new TextEncoder();
+                const encoded = encoder.encode(a.substring(1, a.length-1));
+                const pointer = exports.aldrin_get_pixels(ac)+width*height*4;
+                // allocate wasm memory to store text
+                const memoryToStore = new Uint8Array(exports.memory.buffer, pointer, encoded.length);
+                // store char of string separately
+                for (let i = 0; i < encoded.length; ++i) {
+                    memoryToStore[i] = encoded[i];
+                }
+                // return pointer of string
+                return pointer;
+            }
+            // args is something else
             return a;
         });
 

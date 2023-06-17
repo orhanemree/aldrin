@@ -2,7 +2,7 @@ import { loadWasm, runProgram } from "./helpers.js";
 
 const WASM_PATH = "wasm/main.wasm";
 const REFERENCE_PATH = "DOCUMENTATION.md";
-const PART_TO_LIVE = 13; // part count of live output
+const PART_TO_LIVE = 14; // part count of live output
 // 
 
 const canvas = document.querySelector("canvas#c");
