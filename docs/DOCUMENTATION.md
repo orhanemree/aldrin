@@ -19,6 +19,7 @@
     - [`aldrin_fill_rectangle()`](#aldrin_fill_rectangle)
     - [`aldrin_draw_square()`](#aldrin_draw_square)
     - [`aldrin_fill_square()`](#aldrin_fill_square)
+    - [`aldrin_text()`](#aldrin_text)
     - [`aldrin_get_pixels()`](#aldrin_get_pixels)
     - [`aldrin_get_width()`](#aldrin_get_width)
     - [`aldrin_get_height()`](#aldrin_get_height)
@@ -243,6 +244,22 @@ aldrin_draw_square(ac, 0, 0, 100, 0xff0000, 1);
 aldrin_fill_square(ac, 0, 0, 100, 0xff0000);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_square).
+
+### `aldrin_text()`
+* Writes text on the canvas.
+* Syntax: aldrin_text(ac, x, y, text, text_color, text_size)
+* Parameters:
+  - `ac`: `Aldrin_Canvas`
+  - `x`: `uint32_t`: x coordinate of top-left corner of text
+  - `y`: `uint32_t`: y coordinate of top-left corner of text
+  - `text`: `char[]`: text to write
+  - `text_color`: `uint32_t`: color code of text
+  - `text_size`: `uint32_t`: size of text
+* Example: 
+```c
+aldrin_text(ac, 0, 0, "Lorem ipsum dolor! 012.", 0xffffff, 2);
+```
+* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_text).
 
 ### `aldrin_get_pixels()`
 * Returns the pixels of the `Aldrin_Canvas`.
