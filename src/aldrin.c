@@ -288,6 +288,9 @@ void aldrin_fill_triangle(Aldrin_Canvas ac,
 void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     uint32_t rx, uint32_t ry, uint32_t line_color) {
 
+    if (rx == 0) rx = 1;
+    if (ry == 0) ry = 1;
+
     // implementation of fucking midpoint ellipse algorithm
     int xk0, xk1, yk0, yk1, p1k0, p1k1, p2k0, p2k1;
     uint32_t px, py;
@@ -340,7 +343,7 @@ void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     p2k0 = ac_pow(xk0+1/2, 2)*ac_pow(ry, 2)+ac_pow(yk0-1, 2)*ac_pow(rx, 2)-ac_pow(rx*ry, 2);
 
     do {
-        cond = xk0 != rx || yk0 != 0;
+        cond = yk0 > 0;
 
         px = xk0+x;
         py = yk0+y;
@@ -382,6 +385,9 @@ void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
 
 void aldrin_fill_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     uint32_t rx, uint32_t ry, uint32_t fill_color) {
+
+    if (rx == 0) rx = 1;
+    if (ry == 0) ry = 1;
 
     int xk0, xk1, yk0, yk1, p1k0, p1k1, p2k0, p2k1;
     uint32_t px, py;
@@ -429,7 +435,7 @@ void aldrin_fill_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     p2k0 = ac_pow(xk0+1/2, 2)*ac_pow(ry, 2)+ac_pow(yk0-1, 2)*ac_pow(rx, 2)-ac_pow(rx*ry, 2);
     
     do {
-        cond = xk0 != rx || yk0 != 0;
+         cond = yk0 > 0;
 
         px = xk0+x;
         py = yk0+y;
