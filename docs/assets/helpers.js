@@ -129,3 +129,16 @@ export const runProgram = (exports, canvas, program, clear=true, log=true) => {
         displayPixels(canvas, width, height, pixels);
     }
 }
+
+
+export const saveCanvas = (canvas, outfile) => {
+    // get canvas as png
+    const imgURL = canvas.toDataURL();
+    
+    // download file
+    const link = document.createElement("a");
+    link.setAttribute("href", imgURL);
+    link.setAttribute("download", outfile);
+    link.click();
+    link.remove();
+}

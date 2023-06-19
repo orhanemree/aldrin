@@ -1,4 +1,4 @@
-import { loadWasm, runProgram } from "./helpers.js";
+import { loadWasm, runProgram, saveCanvas } from "./helpers.js";
 
 const WASM_PATH = "wasm/main.wasm";
 const MIN_THICKNESS = 1;
@@ -307,15 +307,7 @@ window.onload = async () => {
 }
 
 
-// download image as .png file
+// download canvas as .png file
 downloadImg.onclick = () => {
-    // get canvas as png
-    const imgURL = canvas.toDataURL();
-
-    // download file
-    const link = document.createElement("a");
-    link.setAttribute("href", imgURL);
-    link.setAttribute("download", "aldrin-playground.png");
-    link.click();
-    link.remove();
+    saveCanvas(canvas, "aldrin-editor.png");
 }
