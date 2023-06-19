@@ -26,6 +26,10 @@
             gap: 10px;
         }
 
+        .active {
+            border-inline: 2px solid black;
+        }
+
         @media screen and (max-width: 650px) {
             .cont {
                 grid-template-columns: 1fr;
@@ -58,9 +62,9 @@
                         <div class="header">
                             <h4>Tools</h4>
                         </div>
-                        <ul 
+                        <ul>
                             <li>
-                                <button id="line" title="Line Tool (L)">
+                                <button id="line" title="Line Tool (L)" class="active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M218-218q-14-15-14-35.5t14-34.5l454-454q14-14 35-14t35 14q14 14 14 35t-14 35L288-218q-14 14-35 14t-35-14Z"/></svg>
                                 </button>
                             </li>
@@ -140,6 +144,11 @@
                 </div>
                 <div>
                     <canvas id="c" tabindex="1"></canvas>
+                </div>
+                <div class="des">
+                    <div>
+                        <span>Hint:</span> Try to draw shapes on canvas. It's running with Aldrin instead of Canvas API.
+                    </div>
                 </div>
             </div>
         </div>

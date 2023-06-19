@@ -79,6 +79,8 @@ toolButtons.forEach(b => {
             else if (b.id === "redo") redo();
             else {
                 tool = b.id;
+                toolButtons.forEach(tb => tb.classList.remove("active"));
+                b.classList.add("active");
             }
         }
     }
