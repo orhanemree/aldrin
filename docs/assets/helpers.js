@@ -48,21 +48,25 @@ export const displayPixels = (canvas, width, height, pixels) => {
 }
 
 
-export const runProgram = (exports, canvas, program) => {
+export const runProgram = (exports, canvas, program, clear=true, log=true) => {
     const ac = exports.ac;
     const width = exports.aldrin_get_width(ac);
     const height = exports.aldrin_get_height(ac);
     // multiply by 4 because R, G, B, A are separately 8 bites
     const pixels =  new Uint8Array(exports.memory.buffer, exports.aldrin_get_pixels(ac), width*height*4);
 
-    // clear canvas first
-    exports["aldrin_fill"](exports.ac, 0x000000);
+    // clear canvas if set
+    if (clear) exports["aldrin_fill"](exports.ac, 0x000000);
 
     // parse program
     const program_ = program.trim().replace(/\n/g, "");
     const lines = program_.split(");").filter(l => l !== "");
 
+    // needed with strings see "arg is a string"
+    let memoryToStore;
+
     for (const line of lines) {
+
         const [func, argsString] = line.split("(");
 
         const args = argsString.replace(")", "").split(", ")
@@ -87,16 +91,21 @@ export const runProgram = (exports, canvas, program) => {
 
                 implementation:
                 */
+
                 // encode text
                 const encoder = new TextEncoder();
                 const encoded = encoder.encode(a.substring(1, a.length-1));
-                const pointer = exports.aldrin_get_pixels(ac)+width*height*4;
+
                 // allocate wasm memory to store text
-                const memoryToStore = new Uint8Array(exports.memory.buffer, pointer, encoded.length);
+                const pointer = exports.aldrin_get_pixels(ac)+width*height*4;
+
+                memoryToStore = new Uint8Array(exports.memory.buffer, pointer, encoded.length);
+
                 // store char of string separately
                 for (let i = 0; i < encoded.length; ++i) {
                     memoryToStore[i] = encoded[i];
                 }
+
                 // return pointer of string
                 return pointer;
             }
@@ -105,8 +114,16 @@ export const runProgram = (exports, canvas, program) => {
         });
 
         // run function
-        console.log(`[INFO] running func ${func.trim()}()\nwith parameters ${args}`);
+        if (log) console.log(`[INFO] running func ${func.trim()}()\nwith parameters ${args}`);
         exports[func.trim()](...args);
+
+        // empty reserved memory for string is string value exists after run program
+        if (memoryToStore) {
+            // store char of string separately
+            for (let i = 0; i < memoryToStore.length; ++i) {
+                memoryToStore[i] = 0;
+            }
+        }
         
         // display output on canvas
         displayPixels(canvas, width, height, pixels);

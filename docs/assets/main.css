@@ -44,6 +44,14 @@ body {
     gap: 10px;
 }
 
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 10px;
+}
+
 .header {
     margin-bottom: 10px;
 }
@@ -72,11 +80,19 @@ button {
     justify-content: center;
     background: none;
     outline: none;
-    border: none;
+    border-radius: 3px;
+    border: 1px solid black;
+    padding: 2px 5px;
+    user-select: none;
 
     &:hover {
         cursor: pointer;
     }
+}
+
+button:has(svg) {
+    border: none;
+    padding: 0;
 }
 
 .des > div {
@@ -86,6 +102,37 @@ button {
 
 .des span {
     color: black;
+}
+
+.label {
+    flex-shrink: 0;
+}
+
+li {
+    list-style: none;
+}
+
+input[type="number"] {
+    width: 50px;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+input[type="color"] {
+    background: none;
+    outline: none;
+    border: none;
+
+    &::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+
+    &::-webkit-color-swatch {
+        border: 1px solid black;
+        border-radius: 3px;
+    }
 }
 
 @media screen and (max-width: 650px) {
@@ -106,6 +153,10 @@ button {
     textarea#t {
         width: 100%;
         height: 50vh;
+    }
+
+    .label {
+        font-size: 12px;
     }
 }
 

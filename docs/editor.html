@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor · Aldrin</title>
+
+    <link rel="stylesheet" href="assets/main.css">
+
+    <style>
+        .cont {
+            grid-template-columns: max(300px, 30%) 1fr;
+        }
+
+        .nav {
+            display: flex;
+            align-items: start;
+            gap: 50px;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        @media screen and (max-width: 650px) {
+            .cont {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            ul {
+                flex-direction: row;
+                align-items: center;
+                justify-content: start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="github">
+            <a href="https://github.com/orhanemree/aldrin">
+                <svg width="35" height="35" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </a>
+        </div>
+        <div class="cont">
+            <div>
+                <div class="nav">
+                    <div>
+                        <div class="header">
+                            <h4>Tools</h4>
+                        </div>
+                        <ul 
+                            <li>
+                                <button id="line" title="Line Tool (L)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M218-218q-14-15-14-35.5t14-34.5l454-454q14-14 35-14t35 14q14 14 14 35t-14 35L288-218q-14 14-35 14t-35-14Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="ellipse" title="Ellipse Tool (E)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="triangle" title="Triangle Tool (T)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="m80-160 401-640 399 640H80Zm107-60h586L481-685 187-220Zm293-233Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="rectangle" title="Rectangle Tool (R)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M80-160v-640h800v640H80Zm60-60h680v-520H140v520Zm0 0v-520 520Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="text" title="Text Tool (ALT+T)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M290-160v-540H80v-100h520v100H390v540H290Zm360 0v-340H520v-100h360v100H750v340H650Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="undo" title="Undo (CTRL+Z)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M280-200v-60h289q70 0 120.5-46.5T740-422q0-69-50.5-115.5T569-584H274l114 114-42 42-186-186 186-186 42 42-114 114h294q95 0 163.5 64T800-422q0 94-68.5 158T568-200H280Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="redo" title="Redo (CTRL+Y)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M392-200q-95 0-163.5-64T160-422q0-94 68.5-158T392-644h294L572-758l42-42 186 186-186 186-42-42 114-114H391q-70 0-120.5 46.5T220-422q0 69 50.5 115.5T391-260h289v60H392Z"/></svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="mode" title="Toggle Mode (CTRL+M)">
+                                    <svg id="draw" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M215-117q-33.835 0-66.917-11.5Q115-140 90-166q35-12 50-35t15-62q0-43.75 30.676-74.375Q216.353-368 260.176-368 304-368 334.5-337.375T365-263q0 64-43.5 105T215-117Zm0-60q35 0 62.5-25t27.5-61q0-20-12.5-32.5T260-308q-20 0-32.5 12.5T215-263q0 39-8.5 57.5T175-183q6 1 20 3.5t20 2.5Zm230-177-90-95 376-376q14-14 31-14.5t32 14.5l29 29q15 15 14.5 32.5T823-732L445-354Zm-185 91Z"/></svg>
+                                    <svg id="fill" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960"><path d="M348-138 98-388q-9-9.118-13.5-20.059T80-430.7q0-11.7 4.5-22.5T98-473l250-250-114-114 43-43 406 407q9.474 9 13.737 19.8T701-430.7q0 11.7-4.263 22.641Q692.474-397.118 683-388L433-138q-9 9-19.8 13.5t-22.5 4.5q-11.7 0-22.641-4.5Q357.118-129 348-138Zm43-542L141-430h500L391-680Zm408.656 560q-33.345 0-56.5-23.182Q720-166.364 720-200q0-26.28 10-49.64T756-293l44-57 44 57q15 20 25.5 43.36T880-200q0 33.636-23.5 56.818Q833-120 799.656-120Z"/></svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="header">
+                            <h4>Values</h4>
+                        </div>
+                        <ul>
+                            <li>
+                                <div class="row">
+                                    <div class="label">Color: </div>
+                                    <input type="color" value="#ffffff" id="color">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="label">Thickness: </div>
+                                    <input type="number" value="1" id="thickness">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="label">Text Size: </div>
+                                    <input type="number" value="1" id="text-size">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="row header">
+                    <h4>Canvas</h4>
+                    <div>
+                        <button title="Download Image" id="download-img">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 -960 960 960"><path d="M220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Zm260-153L287-506l43-43 120 120v-371h60v371l120-120 43 43-193 193Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <canvas id="c" tabindex="1"></canvas>
+                </div>
+            </div>
+        </div>
+
+    <script src="assets/editor.js" type="module"></script>
+</body>
+</html>
