@@ -9,6 +9,8 @@ It stores some color codes of pixels in memory (called canvas here) and you are 
 
 Visit [Playground](https://orhanemree.github.io/aldrin/) to try online.
 
+Visit [Editor](https://orhanemree.github.io/aldrin/editor.html) to try online editor project made with Aldrin.
+
 ## Quick Start
 * Just copy and paste `/src/aldrin.c` file to your project.
 ```c
