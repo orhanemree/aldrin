@@ -125,8 +125,8 @@ aldrin_fill_triangle(ac, 5, 10, 5, 100, 120, 10, 0xff0000);
 * Syntax: aldrin_draw_ellipse(ac, x, y, rx, ry, line_color)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of ellipse
-  - `y`: `uint32_t`: y coordinate of center of ellipse
+  - `x`: `uint32_t`: x coordinate of top-left corner of ellipse
+  - `y`: `uint32_t`: y coordinate of top-left corner of ellipse
   - `rx`: `uint32_t`: x radius of ellipse
   - `ry`: `uint32_t`: y radius of ellipse
   - `line_color`: `uint32_t`: color code of line
@@ -141,8 +141,8 @@ aldrin_draw_ellipse(ac, 0, 0, 90, 50, 0xff0000);
 * Syntax: aldrin_fill_ellipse(ac, x, y, rx, ry, fill_color)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of ellipse
-  - `y`: `uint32_t`: y coordinate of center of ellipse
+  - `x`: `uint32_t`: x coordinate of top-left corner of ellipse
+  - `y`: `uint32_t`: y coordinate of top-left corner of ellipse
   - `rx`: `uint32_t`: x radius of ellipse
   - `ry`: `uint32_t`: y radius of ellipse
   - `fill_color`: `uint32_t`: color code of fill
@@ -157,8 +157,8 @@ aldrin_fill_ellipse(ac, 0, 0, 90, 50, 0xff0000);
 * Syntax: aldrin_draw_circle(ac, x, y, r, line_color)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of circle
-  - `y`: `uint32_t`: y coordinate of center of circle
+  - `x`: `uint32_t`: x coordinate of top-left corner of circle
+  - `y`: `uint32_t`: y coordinate of top-left corner of circle
   - `r`: `uint32_t`: radius of circle
   - `line_color`: `uint32_t`: color code of line
 * Example: 
@@ -172,8 +172,8 @@ aldrin_draw_circle(ac, 0, 0, 50, 0xff0000);
 * Syntax: aldrin_fill_circle(ac, x, y, r, fill_color)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of circle
-  - `y`: `uint32_t`: y coordinate of center of circle
+  - `x`: `uint32_t`: x coordinate of top-left corner of circle
+  - `y`: `uint32_t`: y coordinate of top-left corner of circle
   - `r`: `uint32_t`: radius of circle
   - `fill_color`: `uint32_t`: color code of fill
 * Example: 
@@ -187,15 +187,15 @@ aldrin_fill_circle(ac, 0, 0, 50, 0xff0000);
 * Syntax: aldrin_draw_rectangle(ac, x, y, w, h, line_color, thickness)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of rectangle
-  - `y`: `uint32_t`: y coordinate of center of rectangle
+  - `x`: `uint32_t`: x coordinate of top-left corner of rectangle
+  - `y`: `uint32_t`: y coordinate of top-left corner of rectangle
   - `w`: `uint32_t`: width of rectangle
   - `h`: `uint32_t`: height of rectangle
   - `line_color`: `uint32_t`: color code of line
   - `thickness`: "uint32_t`: thickness of line
 * Example: 
 ```c
-aldrin_draw_rectangle(ac, 0, 0, 200, 100, 0xff0000, 1);
+aldrin_draw_rectangle(ac, 0, 0, 50, 100, 0xff0000, 1);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_rectangle).
 
@@ -204,14 +204,14 @@ aldrin_draw_rectangle(ac, 0, 0, 200, 100, 0xff0000, 1);
 * Syntax: aldrin_fill_rectangle(ac, x, y, w, h, line_color, thickness)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of rectangle
-  - `y`: `uint32_t`: y coordinate of center of rectangle
+  - `x`: `uint32_t`: x coordinate of top-left corner of rectangle
+  - `y`: `uint32_t`: y coordinate of top-left corner of rectangle
   - `w`: `uint32_t`: width of rectangle
   - `h`: `uint32_t`: height of rectangle
   - `fill_color`: `uint32_t`: color code of fill
 * Example: 
 ```c
-aldrin_fill_rectangle(ac, 0, 0, 200, 100, 0xff0000);
+aldrin_fill_rectangle(ac, 0, 0, 50, 100, 0xff0000);
 ```
 * [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_rectangle).
 
@@ -220,8 +220,8 @@ aldrin_fill_rectangle(ac, 0, 0, 200, 100, 0xff0000);
 * Syntax: aldrin_draw_square(ac, x, y, l, line_color, thickness)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of rectangle
-  - `y`: `uint32_t`: y coordinate of center of rectangle
+  - `x`: `uint32_t`: x coordinate of top-left corner of rectangle
+  - `y`: `uint32_t`: y coordinate of top-left corner of rectangle
   - `l`: `uint32_t`: lenght (width and height) of rectangle
   - `line_color`: `uint32_t`: color code of line
 * Example: 
@@ -235,8 +235,8 @@ aldrin_draw_square(ac, 0, 0, 100, 0xff0000, 1);
 * Syntax: aldrin_fill_square(ac, x, y, l, fill_color)
 * Parameters:
   - `ac`: `Aldrin_Canvas`
-  - `x`: `uint32_t`: x coordinate of center of rectangle
-  - `y`: `uint32_t`: y coordinate of center of rectangle
+  - `x`: `uint32_t`: x coordinate of top-left corner of rectangle
+  - `y`: `uint32_t`: y coordinate of top-left corner of rectangle
   - `l`: `uint32_t`: lenght (width and height) of rectangle
   - `fill_color`: `uint32_t`: color code of fill
 * Example: 
