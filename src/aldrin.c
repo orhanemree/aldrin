@@ -149,7 +149,9 @@ void aldrin_swap(uint32_t *x1, uint32_t *y1, uint32_t *x2, uint32_t *y2) {
 
 
 void aldrin_put_pixel(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t color) {
-    ac.pixels[(y*ac.width) + x] = color;
+    if (x >= 0 && x < ac.width && y >= 0 && y < ac.height) {
+        ac.pixels[(y*ac.width) + x] = color;
+    }
 }
 
 
@@ -288,6 +290,9 @@ void aldrin_fill_triangle(Aldrin_Canvas ac,
 void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     uint32_t rx, uint32_t ry, uint32_t line_color) {
 
+    const uint32_t cx = x+rx; // x coord of center of ellipse
+    const uint32_t cy = y+ry; // y coord of center of ellipse
+
     if (rx == 0) rx = 1;
     if (ry == 0) ry = 1;
 
@@ -301,26 +306,39 @@ void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     p1k0 = ac_pow(ry, 2)+ac_pow(rx, 2)/4-ry*ac_pow(rx, 2);
 
     do {
-        px = xk0+x;
-        py = yk0+y;
+        /*
+            note: The classical midpoint ellipse algorithm is for graphics 
+            that accept the (0, 0) point as the middle of the canvas. 
+            Since this library accepts the point (0, 0) as the top left corner, 
+            all found points must be summed with rx and ry
+        */
+        px = xk0+x+rx;
+        py = yk0+y+ry;
 
         // repeat for 4 quads
         if (px >= 0 && px < ac.width) {
             if (py >= 0 && py < ac.height) {
+                // bottom right part
                 aldrin_put_pixel(ac, px, py, line_color);
             }
-            if (y-py+y >= 0 && y-py+y < ac.height) {
-                aldrin_put_pixel(ac, px, y-py+y, line_color);
+            if (cy-py+cy >= 0 && cy-py+cy < ac.height) {
+                // top right part
+                aldrin_put_pixel(ac, px, cy-py+cy, line_color);
             }
         }
-        if (x-px+x >= 0 && x-px+x < ac.width) {
+        if (cx-px+cx >= 0 && cx-px+cx < ac.width) {
             if (py >= 0 && py < ac.height) {
-                aldrin_put_pixel(ac, x-px+x, py, line_color);
+                // bottom left part
+                aldrin_put_pixel(ac, cx-px+cx, py, line_color);
             }
-            if (y-py+y >= 0 && y-py+y < ac.height) {
-                aldrin_put_pixel(ac, x-px+x, y-py+y, line_color);
+            if (cy-py+cy >= 0 && cy-py+cy < ac.height) {
+                // top left part
+                aldrin_put_pixel(ac, cx-px+cx, cy-py+cy, line_color);
             }
         }
+
+        px -= rx;
+        py -= ry;
 
         if (p1k0 >= 0) {
             xk1 = xk0+1;
@@ -345,26 +363,33 @@ void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     do {
         cond = yk0 > 0;
 
-        px = xk0+x;
-        py = yk0+y;
+        px = xk0+x+rx;
+        py = yk0+y+ry;
 
         // repeat for 4 quads
         if (px >= 0 && px < ac.width) {
             if (py >= 0 && py < ac.height) {
+                // bottom right part
                 aldrin_put_pixel(ac, px, py, line_color);
             }
-            if (y-py+y >= 0 && y-py+y < ac.height) {
-                aldrin_put_pixel(ac, px, y-py+y, line_color);
+            if (cy-py+cy >= 0 && cy-py+cy < ac.height) {
+                // top right part
+                aldrin_put_pixel(ac, px, cy-py+cy, line_color);
             }
         }
-        if (x-px+x >= 0 && x-px+x < ac.width) {
+        if (cx-px+cx >= 0 && cx-px+cx < ac.width) {
             if (py >= 0 && py < ac.height) {
-                aldrin_put_pixel(ac, x-px+x, py, line_color);
+                // bottom left part
+                aldrin_put_pixel(ac, cx-px+cx, py, line_color);
             }
-            if (y-py+y >= 0 && y-py+y < ac.height) {
-                aldrin_put_pixel(ac, x-px+x, y-py+y, line_color);
+            if (cy-py+cy >= 0 && cy-py+cy < ac.height) {
+                // top left part
+                aldrin_put_pixel(ac, cx-px+cx, cy-py+cy, line_color);
             }
         }
+
+        px -= rx;
+        py -= ry;
 
         if (p2k0 >= 0) {
             xk1 = xk0;
@@ -386,9 +411,13 @@ void aldrin_draw_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
 void aldrin_fill_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     uint32_t rx, uint32_t ry, uint32_t fill_color) {
 
+    const uint32_t cx = x+rx; // x coord of center of ellipse
+    const uint32_t cy = y+ry; // y coord of center of ellipse
+
     if (rx == 0) rx = 1;
     if (ry == 0) ry = 1;
 
+    // implementation of fucking midpoint ellipse algorithm again. see draw_ellipse() for quick note
     int xk0, xk1, yk0, yk1, p1k0, p1k1, p2k0, p2k1;
     uint32_t px, py;
 
@@ -398,21 +427,37 @@ void aldrin_fill_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     p1k0 = ac_pow(ry, 2)+ac_pow(rx, 2)/4-ry*ac_pow(rx, 2);
 
     do {
-        px = xk0+x;
-        py = yk0+y;
+        px = xk0+x+rx;
+        py = yk0+y+ry;
     
         // repeat for 4 quads
-        aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_min(py, ac.height-1), 
-            ac_min(x, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
-
-        aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_max(y-py+y, 0), 
-            ac_min(x, ac.width-1), ac_max(y-py+y, 0), fill_color, 1);
-
-        aldrin_draw_line(ac, ac_max(x-px+x, 0), ac_min(py, ac.height-1), 
-            ac_min(x, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
-
-        aldrin_draw_line(ac, ac_max(x-px+x, 0), ac_max(y-py+y, 0), 
-            ac_min(x, ac.width-1), ac_max(y-py+y, 0), fill_color, 1);
+        if ((px >= 0 || cx >= 0) && (px < ac.width || cx < ac.width)) {
+            if ((py >= 0 || cy >= 0) && (py < ac.width || cy < ac.width)) {
+                // bottom right part
+                aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_min(py, ac.height-1), 
+                    ac_min(cx, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
+            }
+            if ((cy-py+cy >= 0 || cy >= 0) && (cy-py+cy < ac.width || cy < ac.width)) {
+                // top right part
+                aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_max(cy-py+cy, 0), 
+                    ac_min(cx, ac.width-1), ac_max(cy-py+cy, 0), fill_color, 1);
+            }
+        }
+        if ((cx-px+cx >= 0 || cx >= 0) && (cx-px+cx < ac.width || cx < ac.width)) {
+            if ((py >= 0 || cy >= 0) && (py < ac.width || cy < ac.width)) {
+                // bottom left part
+                aldrin_draw_line(ac, ac_max(cx-px+cx, 0), ac_min(py, ac.height-1), 
+                    ac_min(cx, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
+            }
+            if ((cy-py+cy >= 0 || cy >= 0) && (cy-py+cy < ac.width || cy < ac.width)) {
+                // top left part
+                aldrin_draw_line(ac, ac_max(cx-px+cx, 0), ac_max(cy-py+cy, 0), 
+                    ac_min(cx, ac.width-1), ac_max(cy-py+cy, 0), fill_color, 1);
+            }
+        }
+        
+        px -= rx;
+        py -= ry;
 
         if (p1k0 >= 0) {
             xk1 = xk0+1;
@@ -437,21 +482,36 @@ void aldrin_fill_ellipse(Aldrin_Canvas ac, uint32_t x, uint32_t y,
     do {
          cond = yk0 > 0;
 
-        px = xk0+x;
-        py = yk0+y;
+        px = xk0+x+rx;
+        py = yk0+y+ry;
 
         // repeat for 4 quads
-        aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_min(py, ac.height-1), 
-            ac_min(x, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
+        if ((px >= 0 || cx >= 0) && (px < ac.width || cx < ac.width)) {
+            if ((py >= 0 || cy >= 0) && (py < ac.width || cy < ac.width)) {
+                // bottom right part
+                aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_min(py, ac.height-1), 
+                    ac_min(cx, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
+            }
+            if ((cy-py+cy >= 0 || cy >= 0) && (cy-py+cy < ac.width || cy < ac.width)) {
+                // top right part
+                aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_max(cy-py+cy, 0), 
+                    ac_min(cx, ac.width-1), ac_max(cy-py+cy, 0), fill_color, 1);
+            }
+        }
+        if ((cx-px+cx >= 0 || cx >= 0) && (cx-px+cx < ac.width || cx < ac.width)) {
+            if ((py >= 0 || cy >= 0) && (py < ac.width || cy < ac.width)) {
+                aldrin_draw_line(ac, ac_max(cx-px+cx, 0), ac_min(py, ac.height-1), 
+                    ac_min(cx, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
+            }
+            if ((cy-py+cy >= 0 || cy >= 0) && (cy-py+cy < ac.width || cy < ac.width)) {
+                // top left part
+                aldrin_draw_line(ac, ac_max(cx-px+cx, 0), ac_max(cy-py+cy, 0), 
+                    ac_min(cx, ac.width-1), ac_max(cy-py+cy, 0), fill_color, 1);
+            }
+        }
 
-        aldrin_draw_line(ac, ac_min(px, ac.width-1), ac_max(y-py+y, 0), 
-            ac_min(x, ac.width-1), ac_max(y-py+y, 0), fill_color, 1);
-
-        aldrin_draw_line(ac, ac_max(x-px+x, 0), ac_min(py, ac.height-1), 
-            ac_min(x, ac.width-1), ac_min(py, ac.height-1), fill_color, 1);
-
-        aldrin_draw_line(ac, ac_max(x-px+x, 0), ac_max(y-py+y, 0), 
-            ac_min(x, ac.width-1), ac_max(y-py+y, 0), fill_color, 1);
+        px -= rx;
+        py -= ry;
 
         if (p2k0 >= 0) {
             xk1 = xk0;
@@ -486,32 +546,29 @@ void aldrin_fill_circle(Aldrin_Canvas ac, uint32_t x, uint32_t y, uint32_t r,
 
 void aldrin_draw_rectangle(Aldrin_Canvas ac, uint32_t x, int32_t y,
     uint32_t w, uint32_t h, uint32_t line_color, uint32_t thickness) {
-    
-    const uint32_t half_w = w/2;
-    const uint32_t half_h = h/2;
 
     // calculate bounding box
-    const uint32_t x_min = ac_max(x-half_w, 0);
-    const uint32_t y_min = ac_max(y-half_h, 0);
-    const uint32_t x_max = ac_min(x+half_w, ac.width-1);
-    const uint32_t y_max = ac_min(y+half_h, ac.height-1);
+    const uint32_t x_min = ac_max(x, 0);
+    const uint32_t y_min = ac_max(y, 0);
+    const uint32_t x_max = ac_min(x+w, ac.width-1);
+    const uint32_t y_max = ac_min(y+h, ac.height-1);
 
-    if (half_h <= y) {
+    if (0 <= y) {
         // top
         aldrin_draw_line(ac, x_min, y_min, x_max, y_min, line_color, thickness);
     }
 
-    if (half_w <= x) {
+    if (0 <= x) {
         // left
         aldrin_draw_line(ac, x_min, y_max, x_min, y_min, line_color, thickness);
     }
 
-    if (x+half_w <= ac.width) {
+    if (x+w <= ac.width) {
         // right
         aldrin_draw_line(ac, x_max, y_min, x_max, y_max, line_color, thickness);
     }
 
-    if (y+half_h <= ac.height) {
+    if (y+h <= ac.height) {
         // bottom
         aldrin_draw_line(ac, x_max, y_max, x_min, y_max, line_color, thickness);
     }
@@ -521,14 +578,11 @@ void aldrin_draw_rectangle(Aldrin_Canvas ac, uint32_t x, int32_t y,
 void aldrin_fill_rectangle(Aldrin_Canvas ac, uint32_t x, int32_t y,
     uint32_t w, uint32_t h, uint32_t fill_color) {
 
-    const uint32_t half_w = w/2;
-    const uint32_t half_h = h/2;
-
     // calculate bounding box
-    const uint32_t x_min = ac_max(x-half_w, 0);
-    const uint32_t y_min = ac_max(y-half_h, 0);
-    const uint32_t x_max = ac_min(x+half_w, ac.width-1);
-    const uint32_t y_max = ac_min(y+half_h, ac.height-1);
+    const uint32_t x_min = ac_max(x, 0);
+    const uint32_t y_min = ac_max(y, 0);
+    const uint32_t x_max = ac_min(x+w, ac.width-1);
+    const uint32_t y_max = ac_min(y+h, ac.height-1);
 
     for (uint32_t y0 = y_min; y0 <= y_max; ++y0) {
         aldrin_draw_line(ac, x_min, y0, x_max, y0, fill_color, 1); 
