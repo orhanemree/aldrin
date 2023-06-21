@@ -142,15 +142,18 @@ canvas.onmousemove = e => {
 
         else if (tool === "ellipse") {
 
+            const rx = startX - (e.x-bbox.left);
+            const ry = startY - (e.y-bbox.top);
+
             if (mode === "draw") {
                 code = `aldrin_draw_ellipse(ac, \
-                    ${startX}, ${startY}, ${Math.abs(startX - (e.x-bbox.left))}, \
-                    ${Math.abs(startY - (e.y-bbox.top))}, ${color});\n`;
+                    ${rx < 0 ? startX : startX-rx}, ${ry < 0 ? startY : startY-ry}, \
+                    ${Math.abs(rx)/2}, ${Math.abs(ry)/2}, ${color});\n`;
 
             } else if (mode === "fill") {
                 code = `aldrin_fill_ellipse(ac, \
-                    ${startX}, ${startY}, ${Math.abs(startX - (e.x-bbox.left))}, \
-                    ${Math.abs(startY - (e.y-bbox.top))}, ${color});\n`;
+                    ${rx < 0 ? startX : startX-rx}, ${ry < 0 ? startY : startY-ry}, \
+                    ${Math.abs(rx)/2}, ${Math.abs(ry)/2}, ${color});\n`;
             }
         } 
         
@@ -197,15 +200,18 @@ canvas.onmousemove = e => {
         
         else if (tool === "rectangle") {
 
+            const w = startX - (e.x-bbox.left);
+            const h = startY - (e.y-bbox.top);
+
             if (mode === "draw") {
                 code = `aldrin_draw_rectangle(ac, \
-                    ${startX}, ${startY}, ${Math.abs(startX - (e.x-bbox.left))*2}, \
-                    ${Math.abs(startY - (e.y-bbox.top))*2}, ${color}, ${thickness});\n`;
+                    ${w < 0 ? startX : startX-w}, ${h < 0 ? startY : startY-h}, \
+                    ${Math.abs(w)}, ${Math.abs(h)}, ${color}, ${thickness});\n`;
 
             } else if (mode === "fill") {
                 code = `aldrin_fill_rectangle(ac, \
-                    ${startX}, ${startY}, ${Math.abs(startX - (e.x-bbox.left))*2}, \
-                    ${Math.abs(startY - (e.y-bbox.top))*2}, ${color});\n`;
+                    ${w < 0 ? startX : startX-w}, ${h < 0 ? startY : startY-h}, \
+                    ${Math.abs(w)}, ${Math.abs(h)}, ${color});\n`;
             }
         }
 
