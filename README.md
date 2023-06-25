@@ -7,6 +7,10 @@ Simple 2D Computer Graphics Library in C.
 
 It stores some color codes of pixels in memory (called canvas here) and you are free to use this pixels wherever you want. You can write the pixels to `.ppm` file or build `.c` code to `.wasm` and display the pixels on JavaScript Canvas. Keep reading to see examples on both platforms.
 
+Visit [orhanemree/aldrin.js](https://github.com/orhanemree/aldrin.js) to WebAssembly version.
+
+Visit [orhanemree/aldrin.py](https://github.com/orhanemree/aldrin.py) to Python wrapper.
+
 Visit [Documentation](https://orhanemree.github.io/aldrin.js/reference.html) to read docs and run examples live.
 
 Visit [Playground](https://orhanemree.github.io/aldrin.js/playground.html) to try online.
