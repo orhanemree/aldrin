@@ -11,8 +11,6 @@ Visit [orhanemree/aldrin.js](https://github.com/orhanemree/aldrin.js) to WebAsse
 
 Visit [orhanemree/aldrin.py](https://github.com/orhanemree/aldrin.py) to Python wrapper.
 
-Visit [Documentation](https://orhanemree.github.io/aldrin.js/reference.html) to read docs and run examples live.
-
 Visit [Playground](https://orhanemree.github.io/aldrin.js/playground.html) to try online.
 
 Visit [Editor](https://orhanemree.github.io/aldrin.js/editor.html) to try online editor project made with Aldrin.
