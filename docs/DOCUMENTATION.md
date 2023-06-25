@@ -52,7 +52,7 @@ Aldrin_Canvas ac = { pixels, WIDTH, HEIGHT };
 ```c
 aldrin_put_pixel(ac, 100, 100, 0x00ff00);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_put_pixel).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_put_pixel).
 
 ### `aldrin_fill()`
 * Fills canvas with color.
@@ -64,7 +64,7 @@ aldrin_put_pixel(ac, 100, 100, 0x00ff00);
 ```c
 aldrin_fill(ac, 0x00ff00);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_fill).
 
 ### `aldrin_draw_line()`
 * Draws a line on the canvas.
@@ -81,7 +81,7 @@ aldrin_fill(ac, 0x00ff00);
 ```c
 aldrin_draw_line(ac, 0, 0, 200, 200, 0xff0000, 5);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_line).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_draw_line).
 
 ### `aldrin_draw_triangle()`
 * Draws a triangle on the canvas.
@@ -100,7 +100,7 @@ aldrin_draw_line(ac, 0, 0, 200, 200, 0xff0000, 5);
 ```c
 aldrin_draw_triangle(ac, 5, 10, 5, 100, 120, 10, 0xff0000, 1);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_triangle).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_draw_triangle).
 
 ### `aldrin_fill_triangle()`
 * Draws and fills a triangle on the canvas.
@@ -118,7 +118,7 @@ aldrin_draw_triangle(ac, 5, 10, 5, 100, 120, 10, 0xff0000, 1);
 ```c
 aldrin_fill_triangle(ac, 5, 10, 5, 100, 120, 10, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_triangle).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_fill_triangle).
 
 ### `aldrin_draw_ellipse()`
 * Draws a ellipse on the canvas.
@@ -134,7 +134,7 @@ aldrin_fill_triangle(ac, 5, 10, 5, 100, 120, 10, 0xff0000);
 ```c
 aldrin_draw_ellipse(ac, 0, 0, 90, 50, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_ellipse).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_draw_ellipse).
 
 ### `aldrin_fill_ellipse()`
 * Draws and fills a ellipse on the canvas.
@@ -150,7 +150,7 @@ aldrin_draw_ellipse(ac, 0, 0, 90, 50, 0xff0000);
 ```c
 aldrin_fill_ellipse(ac, 0, 0, 90, 50, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_ellipse).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_fill_ellipse).
 
 ### `aldrin_draw_circle()`
 * Draws a circle on the canvas.
@@ -165,7 +165,7 @@ aldrin_fill_ellipse(ac, 0, 0, 90, 50, 0xff0000);
 ```c
 aldrin_draw_circle(ac, 0, 0, 50, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_circle).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_draw_circle).
 
 ### `aldrin_fill_circle()`
 * Draws and fills a circle on the canvas.
@@ -180,7 +180,7 @@ aldrin_draw_circle(ac, 0, 0, 50, 0xff0000);
 ```c
 aldrin_fill_circle(ac, 0, 0, 50, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_circle).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_fill_circle).
 
 ### `aldrin_draw_rectangle()`
 * Draws a rectangle on the canvas.
@@ -197,7 +197,7 @@ aldrin_fill_circle(ac, 0, 0, 50, 0xff0000);
 ```c
 aldrin_draw_rectangle(ac, 0, 0, 50, 100, 0xff0000, 1);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_rectangle).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_draw_rectangle).
 
 ### `aldrin_fill_rectangle()`
 * Draws and fills a rectangle on the canvas.
@@ -213,7 +213,7 @@ aldrin_draw_rectangle(ac, 0, 0, 50, 100, 0xff0000, 1);
 ```c
 aldrin_fill_rectangle(ac, 0, 0, 50, 100, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_rectangle).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_fill_rectangle).
 
 ### `aldrin_draw_square()`
 * Draws a square on the canvas.
@@ -229,7 +229,7 @@ aldrin_fill_rectangle(ac, 0, 0, 50, 100, 0xff0000);
 ```c
 aldrin_draw_square(ac, 0, 0, 100, 0xff0000, 1);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_draw_square).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_draw_square).
 
 ### `aldrin_fill_square()`
 * Draws and fills a square on the canvas.
@@ -244,7 +244,7 @@ aldrin_draw_square(ac, 0, 0, 100, 0xff0000, 1);
 ```c
 aldrin_fill_square(ac, 0, 0, 100, 0xff0000);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_fill_square).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_fill_square).
 
 ### `aldrin_text()`
 * Writes text on the canvas.
@@ -260,7 +260,7 @@ aldrin_fill_square(ac, 0, 0, 100, 0xff0000);
 ```c
 aldrin_text(ac, 0, 0, "Lorem ipsum dolor! 012.", 0xffffff, 2);
 ```
-* [See live output](https://orhanemree.github.io/aldrin/reference.html?r=aldrin_text).
+* [See live output](https://orhanemree.github.io/aldrin.js/reference.html?r=aldrin_text).
 
 ### `aldrin_get_pixels()`
 * Returns the pixels of the `Aldrin_Canvas`.
