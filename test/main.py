@@ -29,22 +29,6 @@ def run_example(test_name: str):
         image = Image.open(f"output/{test_name}.ppm")
         image.save(f"output/{test_name}.png")
         
-    # build as wasm program
-    try:
-        os.system(f"clang -DPLATFORM_WASM --target=wasm32 -o {test_name}.o -c {test_name}.c")
-        # not much necessary if other test passes
-        subprocess.call(
-            ["wasm-ld", "--no-entry", "--allow-undefined", "--export-all", "-o", f"output/{test_name}.wasm", f"{test_name}.o"],
-            stdout = subprocess.DEVNULL,
-            stderr = subprocess.DEVNULL
-        )
-                
-    except:
-        pass
-    
-    finally:
-        os.system(f"rm {test_name}.o")
-        
     with open(f"output/{test_name}.ppm") as f:
         output = f.read()
         
