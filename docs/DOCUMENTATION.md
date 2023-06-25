@@ -224,6 +224,7 @@ aldrin_fill_rectangle(ac, 0, 0, 50, 100, 0xff0000);
   - `y`: `uint32_t`: y coordinate of top-left corner of rectangle
   - `l`: `uint32_t`: lenght (width and height) of rectangle
   - `line_color`: `uint32_t`: color code of line
+  - `thickness`: "uint32_t`: thickness of line
 * Example: 
 ```c
 aldrin_draw_square(ac, 0, 0, 100, 0xff0000, 1);
